@@ -1,0 +1,47 @@
+YOUTUBE SHORTS METADATA: ChatGPT reel (reel.mp4)
+============================================================
+TITLE (58/100)
+3 ChatGPT Tricks for Way Better Answers 🤖 #chatgpt #shorts
+
+ALTERNATIVE TITLES (A/B test)
+- You're Prompting ChatGPT Wrong: 3 Fixes #shorts
+- 3 ChatGPT Prompt Tricks Everyone Should Know #shorts
+
+============================================================
+DESCRIPTION (872/5000)
+3 ChatGPT tricks that instantly give you better answers 👇
+
+1️⃣ Make it ask you first
+End your prompt with "Before answering, ask me 3 questions." ChatGPT gathers the context it needs, so the final answer actually fits you.
+
+2️⃣ Give it a role + format
+Start with "Act as a…" (travel planner, editor, coach) and say exactly how you want the answer: a list, a table, 3 bullet points. Role + format = answers you can use right away.
+
+3️⃣ Set custom instructions
+Settings → Personalization → Custom instructions. Tell ChatGPT once about your job, tone and favorite format, and it applies to every new chat.
+
+📋 Want ready-to-copy prompts that work? Browse the free prompt library: https://keepmesignedin.com
+
+💬 Which trick will you try first? Comment 1, 2 or 3!
+
+🔔 Subscribe for quick AI and app tutorials every week.
+
+#chatgpt #aiprompts #chatgpttips #ai #productivity #shorts
+
+============================================================
+TAGS (311/500), paste into the Tags field
+chatgpt tricks, chatgpt tips, chatgpt prompts, better chatgpt answers, prompt engineering, how to use chatgpt, chatgpt custom instructions, chatgpt personalization, act as prompt, chatgpt for beginners, ai prompts, ai tips, ai productivity, chatgpt tutorial, openai, tech tips, keep me signed in
+
+============================================================
+HASHTAGS (the first 3 appear above the title)
+#chatgpt #aiprompts #chatgpttips
+
+============================================================
+UPLOAD SETTINGS
+Audience: No, it's not made for kids
+Category: Science & Technology
+Video language: English (United States)
+Altered or synthetic content: No (animated mockups, not realistic footage)
+Comments: On
+Pinned comment: Which one will you try first? 1, 2 or 3? 👇 Free prompts at keepmesignedin.com
+Thumbnail: in the YouTube mobile app, pick the frame at ~0:02 (big number + title)
