@@ -23,11 +23,22 @@
       "screen": {
         "type": "chat_send",
         "contact": "Alex",
-        "incoming": ["See you at 8?"],
+        "incoming": [
+          "See you at 8?"
+        ],
         "type_text": "*Bold* _italic_ ~strike~ ```mono```",
         "sent": "*Bold* _italic_ ~strike~ `mono`"
       },
-      "captions": [["Wrap words in symbols:", "*bold*  _italic_  ~strike~"], ["Works in any chat.", "No extra app needed."]]
+      "captions": [
+        [
+          "Wrap words in symbols:",
+          "*bold*  _italic_  ~strike~"
+        ],
+        [
+          "Works in any chat.",
+          "No extra app needed."
+        ]
+      ]
     },
     {
       "title": "Message yourself",
@@ -36,13 +47,46 @@
         "type": "search_open",
         "list_title": "Chats",
         "query": "Me",
-        "result": ["Me (You)", "Message yourself"],
-        "others": [["Mom", "Call me when you land", "9:12"], ["Team", "Deck is ready", "8:47"], ["Sam", "haha yes", "Yesterday"]],
+        "result": [
+          "Me (You)",
+          "Message yourself"
+        ],
+        "others": [
+          [
+            "Mom",
+            "Call me when you land",
+            "9:12"
+          ],
+          [
+            "Team",
+            "Deck is ready",
+            "8:47"
+          ],
+          [
+            "Sam",
+            "haha yes",
+            "Yesterday"
+          ]
+        ],
         "open_title": "Me (You)",
         "open_sub": "Message yourself",
-        "items": ["*Wi-Fi:* `Blue-Fox-42`", "*Groceries:* milk, eggs, coffee", "*Read later:* _bit.ly/app-tips_", "Gift idea for Mom *!!*"]
+        "items": [
+          "*Wi-Fi:* `Blue-Fox-42`",
+          "*Groceries:* milk, eggs, coffee",
+          "*Read later:* _bit.ly/app-tips_",
+          "Gift idea for Mom *!!*"
+        ]
       },
-      "captions": [["Search your own name", "or tap your number"], ["Your private notepad,", "synced on every device"]]
+      "captions": [
+        [
+          "Search your own name",
+          "or tap your number"
+        ],
+        [
+          "Your private notepad,",
+          "synced on every device"
+        ]
+      ]
     },
     {
       "title": "Pin your top chats",
@@ -50,11 +94,45 @@
       "screen": {
         "type": "long_press_pin",
         "list_title": "Chats",
-        "rows": [["Team", "Deck is ready", "9:30"], ["Sam", "haha yes", "9:02"], ["Gym crew", "Leg day tomorrow", "8:15"],
-                 ["Mom", "Call me when you land", "Yesterday"], ["Dentist", "Reminder: Thu 10am", "Mon"]],
+        "rows": [
+          [
+            "Team",
+            "Deck is ready",
+            "9:30"
+          ],
+          [
+            "Sam",
+            "haha yes",
+            "9:02"
+          ],
+          [
+            "Gym crew",
+            "Leg day tomorrow",
+            "8:15"
+          ],
+          [
+            "Mom",
+            "Call me when you land",
+            "Yesterday"
+          ],
+          [
+            "Dentist",
+            "Reminder: Thu 10am",
+            "Mon"
+          ]
+        ],
         "target": 3
       },
-      "captions": [["Long-press a chat,", "then tap the pin"], ["Up to 3 chats stay", "on top. Always."]]
+      "captions": [
+        [
+          "Long-press a chat,",
+          "then tap the pin"
+        ],
+        [
+          "Up to 3 chats stay",
+          "on top. Always."
+        ]
+      ]
     }
   ],
   "cta": {
@@ -62,5 +140,57 @@
     "line2": "was new to you?",
     "prompt": "COMMENT THE NUMBER",
     "button": "Follow @keepmesignedin"
+  },
+  "youtube": {
+    "title": "3 WhatsApp Tricks Nobody Told You 🤯 #whatsapp #shorts",
+    "alt_titles": [
+      "You're Using WhatsApp Wrong: 3 Hidden Tricks #shorts",
+      "3 WhatsApp Hacks I Wish I Knew Sooner 📱 #shorts"
+    ],
+    "description": "3 WhatsApp tricks most people never discover 👇\n\n1️⃣ Format your texts\nWrap words in symbols: *bold*, _italic_, ~strikethrough~ and ```monospace```. Works in any chat, no extra app needed.\n\n2️⃣ Message yourself\nSearch your own name (or tap your number) to open a private chat with yourself. Use it as a notepad for Wi-Fi passwords, grocery lists and links to read later. It syncs on every device.\n\n3️⃣ Pin your top chats\nLong-press a chat and tap the pin icon. Up to 3 chats stay at the top of your list, always.\n\n💬 Which trick was new to you? Comment 1, 2 or 3!\n\n🔔 Subscribe for quick app tutorials every week.\n\n🌐 More tips and AI prompts: https://keepmesignedin.com\n\n#whatsapp #whatsapptricks #techtips #whatsapptips #shorts",
+    "tags": [
+      "whatsapp tricks",
+      "whatsapp tips",
+      "whatsapp hidden features",
+      "whatsapp hacks",
+      "whatsapp secrets",
+      "whatsapp tutorial",
+      "how to use whatsapp",
+      "whatsapp bold text",
+      "whatsapp text formatting",
+      "whatsapp italic",
+      "message yourself whatsapp",
+      "whatsapp notes to self",
+      "pin chats whatsapp",
+      "whatsapp pin chat",
+      "whatsapp new features",
+      "whatsapp tips and tricks 2026",
+      "phone tips",
+      "smartphone tricks",
+      "android tips",
+      "iphone tips",
+      "app tips",
+      "tech tips",
+      "keep me signed in"
+    ],
+    "hashtags": [
+      "whatsapp",
+      "whatsapptricks",
+      "techtips",
+      "whatsapptips",
+      "shorts"
+    ],
+    "category": "Howto & Style",
+    "pinned_comment": "Which one surprised you most? 1, 2 or 3? 👇"
+  },
+  "post": {
+    "caption": "3 WhatsApp tricks nobody told you 👀\n\n1️⃣ Format your texts: *bold* _italic_ ~strike~\n2️⃣ Message yourself: your private notepad\n3️⃣ Pin your top chats\n\nWhich one was new to you? Comment 1, 2 or 3 👇\nSave this for later 🔖",
+    "hashtags": [
+      "whatsapp",
+      "whatsapptricks",
+      "techtips",
+      "phonehacks",
+      "apptips"
+    ]
   }
 }

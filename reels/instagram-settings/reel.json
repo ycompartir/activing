@@ -23,14 +23,30 @@
       "screen": {
         "type": "settings_toggle",
         "title": "Settings and activity",
-        "rows": ["Notifications", "Privacy", "Close Friends", "Like and share counts", "Time management", "Archive"],
+        "rows": [
+          "Notifications",
+          "Privacy",
+          "Close Friends",
+          "Like and share counts",
+          "Time management",
+          "Archive"
+        ],
         "tap": 3,
         "detail_title": "Like and share counts",
         "detail_text": "Hide the number of likes and shares on posts from other accounts.",
         "toggle_label": "Hide like & share counts",
         "toggle_sub": "On posts in your feed"
       },
-      "captions": [["Settings and activity →", "Like and share counts"], ["Scroll without", "the numbers game"]]
+      "captions": [
+        [
+          "Settings and activity →",
+          "Like and share counts"
+        ],
+        [
+          "Scroll without",
+          "the numbers game"
+        ]
+      ]
     },
     {
       "title": "Turn on Quiet mode",
@@ -38,14 +54,30 @@
       "screen": {
         "type": "settings_toggle",
         "title": "Settings and activity",
-        "rows": ["Notifications", "Privacy", "Close Friends", "Like and share counts", "Time management", "Archive"],
+        "rows": [
+          "Notifications",
+          "Privacy",
+          "Close Friends",
+          "Like and share counts",
+          "Time management",
+          "Archive"
+        ],
         "tap": 0,
         "detail_title": "Notifications",
         "detail_text": "Mute notifications and auto-reply to DMs while you focus or sleep.",
         "toggle_label": "Quiet mode",
         "toggle_sub": "Schedule it for any hours"
       },
-      "captions": [["Settings → Notifications", "→ Quiet mode"], ["Silence at night,", "auto-replies to DMs"]]
+      "captions": [
+        [
+          "Settings → Notifications",
+          "→ Quiet mode"
+        ],
+        [
+          "Silence at night,",
+          "auto-replies to DMs"
+        ]
+      ]
     },
     {
       "title": "Hide when you're online",
@@ -53,7 +85,14 @@
       "screen": {
         "type": "settings_toggle",
         "title": "Settings and activity",
-        "rows": ["Notifications", "Privacy", "Messages and story replies", "Close Friends", "Time management", "Archive"],
+        "rows": [
+          "Notifications",
+          "Privacy",
+          "Messages and story replies",
+          "Close Friends",
+          "Time management",
+          "Archive"
+        ],
         "tap": 2,
         "detail_title": "Activity status",
         "detail_text": "Let accounts you follow and anyone you message see when you were last active.",
@@ -61,7 +100,16 @@
         "toggle_sub": "Turn it off to go invisible",
         "start_on": true
       },
-      "captions": [["Messages and story replies", "→ Show activity status"], ["Switch it off.", "Nobody sees you online."]]
+      "captions": [
+        [
+          "Messages and story replies",
+          "→ Show activity status"
+        ],
+        [
+          "Switch it off.",
+          "Nobody sees you online."
+        ]
+      ]
     }
   ],
   "cta": {
@@ -69,5 +117,57 @@
     "line2": "will you change?",
     "prompt": "COMMENT THE NUMBER",
     "button": "Follow @keepmesignedin"
+  },
+  "youtube": {
+    "title": "3 Instagram Settings to Change Today ⚙️ #instagram #shorts",
+    "alt_titles": [
+      "Change These 3 Instagram Settings Right Now #shorts",
+      "3 Hidden Instagram Settings Everyone Should Know #shorts"
+    ],
+    "description": "3 Instagram settings worth changing today 👇\n\n1️⃣ Hide like counts\nSettings and activity → Like and share counts → turn on Hide like & share counts. Scroll without the numbers game.\n\n2️⃣ Turn on Quiet mode\nSettings and activity → Notifications → Quiet mode. Mute notifications and auto-reply to DMs while you focus or sleep, and schedule it for any hours.\n\n3️⃣ Hide when you're online\nSettings and activity → Messages and story replies → Show activity status → switch it off. Nobody sees when you're online (and you won't see theirs either).\n\n💬 Which one will you change? Comment 1, 2 or 3!\n\n🔔 Subscribe for quick app tutorials every week.\n\n🌐 More tips and AI prompts: https://keepmesignedin.com\n\n#instagram #instagramtips #techtips #privacy #socialmediatips #shorts",
+    "tags": [
+      "instagram settings",
+      "instagram tips",
+      "instagram tricks",
+      "instagram hidden features",
+      "instagram hacks",
+      "instagram privacy settings",
+      "hide like count instagram",
+      "instagram quiet mode",
+      "hide activity status instagram",
+      "instagram online status",
+      "how to hide online on instagram",
+      "instagram tutorial",
+      "instagram 2026",
+      "social media tips",
+      "privacy tips",
+      "phone tips",
+      "iphone tips",
+      "android tips",
+      "tech tips",
+      "keep me signed in"
+    ],
+    "hashtags": [
+      "instagram",
+      "instagramtips",
+      "techtips",
+      "privacy",
+      "socialmediatips",
+      "shorts"
+    ],
+    "category": "Howto & Style",
+    "pinned_comment": "Which setting are you changing first? 1, 2 or 3? 👇"
+  },
+  "post": {
+    "caption": "3 Instagram settings to change today ⚙️\n\n1️⃣ Hide like counts\n2️⃣ Turn on Quiet mode\n3️⃣ Hide when you're online\n\nWhich one will you change? Comment 1, 2 or 3 👇\nSave this for later 🔖",
+    "hashtags": [
+      "instagram",
+      "instagramtips",
+      "privacy",
+      "socialmediatips",
+      "techtips",
+      "apptips",
+      "phonehacks"
+    ]
   }
 }

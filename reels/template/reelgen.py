@@ -4,6 +4,7 @@
 Usage:
     python3 reels/template/reelgen.py path/to/reel.json            # full render -> reel.mp4 next to the JSON
     python3 reels/template/reelgen.py path/to/reel.json --stills   # quick preview PNGs (one per scene)
+    python3 reels/template/reelgen.py path/to/reel.json --meta     # only cover.png, post.txt, youtube.txt
 
 All content comes from the JSON file (see reels/template/README.md for the schema).
 Brand look (fonts, colors, K mark) comes from reels/template/brand/ (keepmesignedin.com).
@@ -757,9 +758,52 @@ def load(path):
     set_theme(cfg.get("app", {}))
     return cfg
 
+def tags_len(tags):
+    """YouTube's count: characters + commas, tags containing spaces count 2 extra (quotes)."""
+    return sum(len(t) + (2 if " " in t else 0) for t in tags) + max(0, len(tags) - 1)
+
+def youtube_text(cfg):
+    yt = cfg["youtube"]; app = cfg.get("app", {}).get("name", "")
+    hashtags = ["#" + h.lstrip("#") for h in yt.get("hashtags", [])]
+    desc = yt.get("description")
+    if not desc:  # auto-build from the reel content
+        parts = [yt.get("intro", f'{len(cfg["tricks"])} {app} tricks most people never discover 👇')]
+        nums = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣"]
+        for i, tr in enumerate(cfg["tricks"]):
+            body = tr.get("yt") or " ".join(" ".join(c) if isinstance(c, list) else c for c in tr.get("captions", []))
+            parts.append(f'{nums[i]} {tr["title"]}\n{body}')
+        parts.append(yt.get("cta", "💬 Which trick was new to you? Comment the number!") + "\n🔔 Subscribe for quick app tutorials every week.")
+        parts.append("🌐 More tips and AI prompts: https://keepmesignedin.com")
+        parts.append(" ".join(hashtags + ["#shorts"] if "#shorts" not in hashtags else hashtags))
+        desc = "\n\n".join(parts)
+    title = yt["title"]; tags = yt.get("tags", [])
+    warn = []
+    if len(title) > 100: warn.append(f"TITLE TOO LONG ({len(title)}/100)")
+    if len(desc) > 5000: warn.append(f"DESCRIPTION TOO LONG ({len(desc)}/5000)")
+    if tags_len(tags) > 500: warn.append(f"TAGS TOO LONG ({tags_len(tags)}/500)")
+    for w_ in warn: print("WARNING:", w_)
+    rule = "=" * 60
+    out = [f"YOUTUBE SHORTS METADATA: {app} reel ({cfg.get('output', 'reel.mp4')})", rule,
+           f"TITLE ({len(title)}/100)", title]
+    if yt.get("alt_titles"): out += ["", "ALTERNATIVE TITLES (A/B test)"] + [f"- {t}" for t in yt["alt_titles"]]
+    out += ["", rule, f"DESCRIPTION ({len(desc)}/5000)", desc, "", rule,
+            f"TAGS ({tags_len(tags)}/500), paste into the Tags field", ", ".join(tags), "", rule,
+            "HASHTAGS (the first 3 appear above the title)", " ".join(hashtags[:3]), "", rule, "UPLOAD SETTINGS",
+            "Audience: No, it's not made for kids",
+            f'Category: {yt.get("category", "Howto & Style")}',
+            "Video language: English (United States)",
+            "Altered or synthetic content: No (animated mockups, not realistic footage)",
+            "Comments: On",
+            f'Pinned comment: {yt.get("pinned_comment", "Which one surprised you most? Comment the number 👇")}',
+            "Thumbnail: in the YouTube mobile app, pick the frame at ~0:02 (big number + title)"]
+    if warn: out += ["", "WARNINGS"] + warn
+    return "\n".join(out) + "\n"
+
 def write_extras(cfg, outdir):
-    """cover.png (hook at full reveal, for the Reels/TikTok cover) + post.txt (caption + hashtags)."""
+    """cover.png (hook at full reveal, for the Reels/TikTok cover) + post.txt (caption + hashtags) + youtube.txt."""
     frame(cfg, int(2.3 * FPS)).save(os.path.join(outdir, "cover.png"))
+    if cfg.get("youtube"):
+        open(os.path.join(outdir, "youtube.txt"), "w").write(youtube_text(cfg))
     post = cfg.get("post")
     if post:
         txt = post.get("caption", "").strip() + "\n\n" + " ".join("#" + h.lstrip("#") for h in post.get("hashtags", []))
@@ -773,6 +817,8 @@ def main():
     out = os.path.join(outdir, cfg.get("output", "reel.mp4"))
     segs, dur = timeline(cfg)
     write_extras(cfg, outdir)
+    if "--meta" in sys.argv:
+        print("metadata ->", outdir); return
     if "--stills" in sys.argv:
         times = [1.6] + [a + 2.0 for a, _ in segs[1:-1]] + [a + 4.0 for a, _ in segs[1:-1]] + [dur - 0.5]
         os.makedirs(os.path.join(outdir, "stills"), exist_ok=True)
