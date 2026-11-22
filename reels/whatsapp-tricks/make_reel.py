@@ -389,7 +389,7 @@ def scene_cta(c, t):
     bd = ImageDraw.Draw(btn); bd.rounded_rectangle((0, 0, 759, 139), 70, fill=WHITE)
     # bookmark glyph
     bd.polygon([(70, 35), (110, 35), (110, 105), (90, 88), (70, 105)], fill=INK)
-    bd.text((420, 70), "Save + Follow for more", font=F("black", 44), fill=INK, anchor="mm")
+    bd.text((420, 70), "Follow @keepmesignedin", font=F("black", 44), fill=INK, anchor="mm")
     pulse = 1 + 0.04 * math.sin(lt * 10) * (lt > 1.4)
     paste(c, btn, W / 2, 1520, (back(b) if b < 1 else 1) * pulse, b)
 
