@@ -1,0 +1,155 @@
+{
+  "output": "reel.mp4",
+  "handle": "@keepmesignedin",
+  "pace": "relaxed",
+  "badge": "TRICK",
+  "app": {
+    "name": "ChatGPT",
+    "header": "#FFFFFF",
+    "header_text": "#0D0D0D",
+    "screen_bg": "#FFFFFF",
+    "bubble_out": "#F1F1F1",
+    "bubble_in": "#FFFFFF",
+    "field": "#F4F4F4",
+    "send": "#0D0D0D",
+    "accent": "#10A37F",
+    "touch": "dark",
+    "bubble_time": false
+  },
+  "hook": {
+    "kicker": "AI TIPS · CHATGPT",
+    "line1": "ChatGPT tricks",
+    "line2": "for way better answers",
+    "teaser": "#3 saves you typing every single time"
+  },
+  "tricks": [
+    {
+      "title": "Make it ask you first",
+      "chip": "Ask",
+      "screen": {
+        "type": "chat_send",
+        "contact": "ChatGPT",
+        "contact_sub": "",
+        "type_text": "Help me plan a birthday party. Before answering, ask me 3 questions.",
+        "reply": "Love it! Quick questions first:\n1. How many guests are coming?\n2. What's your budget?\n3. Indoors or outdoors?"
+      },
+      "captions": [
+        [
+          "End your prompt with",
+          "“Ask me 3 questions first”"
+        ],
+        [
+          "Better context in,",
+          "better answers out"
+        ]
+      ]
+    },
+    {
+      "title": "Give it a role + format",
+      "chip": "Role",
+      "screen": {
+        "type": "chat_send",
+        "contact": "ChatGPT",
+        "contact_sub": "",
+        "type_text": "Act as a travel planner. Plan 3 days in Lisbon as a list: day, morning, evening.",
+        "reply": "*Day 1:* Alfama walk · Fado dinner\n*Day 2:* Belém · Sunset viewpoint\n*Day 3:* Sintra trip · LX Factory"
+      },
+      "captions": [
+        [
+          "Start with “Act as…”",
+          "and name the format"
+        ],
+        [
+          "Role + format =",
+          "answers you can use"
+        ]
+      ]
+    },
+    {
+      "title": "Set custom instructions",
+      "chip": "Custom",
+      "screen": {
+        "type": "settings_toggle",
+        "title": "Settings",
+        "rows": [
+          "Account",
+          "Personalization",
+          "Data controls",
+          "Notifications",
+          "Voice",
+          "About"
+        ],
+        "tap": 1,
+        "detail_title": "Custom instructions",
+        "detail_text": "Tell ChatGPT about you and how you'd like it to respond. It applies to every new chat.",
+        "toggle_label": "Enable customization",
+        "toggle_sub": "For new chats"
+      },
+      "captions": [
+        [
+          "Settings → Personalization",
+          "→ Custom instructions"
+        ],
+        [
+          "Say it once: your job,",
+          "your tone, your format"
+        ]
+      ]
+    }
+  ],
+  "cta": {
+    "line1": "Which trick",
+    "line2": "will you try first?",
+    "prompt": "COMMENT THE NUMBER",
+    "button": "Follow @keepmesignedin"
+  },
+  "post": {
+    "caption": "3 ChatGPT tricks for way better answers 🤖\n\n1️⃣ End your prompt with \"Ask me 3 questions first\"\n2️⃣ Give it a role + a format: \"Act as a travel planner… as a list\"\n3️⃣ Set custom instructions once and skip the setup every chat\n\nWant ready-to-copy prompts? Link in bio 🔗\nWhich one will you try first? Comment 1, 2 or 3 👇",
+    "hashtags": [
+      "chatgpt",
+      "chatgpttips",
+      "ai",
+      "aiprompts",
+      "promptengineering",
+      "productivity",
+      "techtips"
+    ]
+  },
+  "youtube": {
+    "title": "3 ChatGPT Tricks for Way Better Answers 🤖 #chatgpt #shorts",
+    "alt_titles": [
+      "You're Prompting ChatGPT Wrong: 3 Fixes #shorts",
+      "3 ChatGPT Prompt Tricks Everyone Should Know #shorts"
+    ],
+    "description": "3 ChatGPT tricks that instantly give you better answers 👇\n\n1️⃣ Make it ask you first\nEnd your prompt with \"Before answering, ask me 3 questions.\" ChatGPT gathers the context it needs, so the final answer actually fits you.\n\n2️⃣ Give it a role + format\nStart with \"Act as a…\" (travel planner, editor, coach) and say exactly how you want the answer: a list, a table, 3 bullet points. Role + format = answers you can use right away.\n\n3️⃣ Set custom instructions\nSettings → Personalization → Custom instructions. Tell ChatGPT once about your job, tone and favorite format, and it applies to every new chat.\n\n📋 Want ready-to-copy prompts that work? Browse the free prompt library: https://keepmesignedin.com\n\n💬 Which trick will you try first? Comment 1, 2 or 3!\n\n🔔 Subscribe for quick AI and app tutorials every week.\n\n#chatgpt #aiprompts #chatgpttips #ai #productivity #shorts",
+    "tags": [
+      "chatgpt tricks",
+      "chatgpt tips",
+      "chatgpt prompts",
+      "better chatgpt answers",
+      "prompt engineering",
+      "how to use chatgpt",
+      "chatgpt custom instructions",
+      "chatgpt personalization",
+      "act as prompt",
+      "chatgpt for beginners",
+      "ai prompts",
+      "ai tips",
+      "ai productivity",
+      "chatgpt tutorial",
+      "openai",
+      "tech tips",
+      "keep me signed in"
+    ],
+    "hashtags": [
+      "chatgpt",
+      "aiprompts",
+      "chatgpttips",
+      "ai",
+      "productivity",
+      "shorts"
+    ],
+    "category": "Science & Technology",
+    "pinned_comment": "Which one will you try first? 1, 2 or 3? 👇 Free prompts at keepmesignedin.com"
+  }
+}

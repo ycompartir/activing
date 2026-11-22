@@ -11,6 +11,7 @@ reels/
   whatsapp-tricks/reel.json     # example: chat-style screens
   gmail-tricks/reel.json        # example: menu → sheet and swipe screens
   google-maps-tricks/reel.json  # example: map screens
+  iphone-camera-tricks/, youtube-tricks/, spotify-tricks/, chatgpt-tricks/   # 29s relaxed-pace examples
   instagram-settings/reel.json  # example: settings → toggle screens
 ```
 
@@ -127,15 +128,25 @@ Text that is too long shrinks automatically to fit.
 
 | `type` | What it animates | Fields |
 |---|---|---|
-| `chat_send` | Typing in a chat, tapping send, then the message pops in | `contact`, `contact_sub`, `incoming` (list of messages), `type_text` (what gets typed), `sent` (how the sent message looks) |
+| `chat_send` | Typing in a chat, tapping send, then the message pops in. If you add `reply`, a "typing…" indicator appears and then the answer (good for ChatGPT). Long messages wrap onto several lines | `contact`, `contact_sub`, `incoming` (list of messages), `type_text` (what gets typed), `sent` (how the sent message looks), `reply` (use `\n` for line breaks) |
 | `search_open` | Typing in search, the list filters down, tapping the result, then items pop in on the next screen | `list_title`, `query`, `result` `[name, subtitle]`, `others` `[[name, msg, time], ...]`, `open_title`, `open_sub`, `items` (list of messages) |
 | `long_press_pin` | Long-pressing a row, the toolbar appears, tapping pin, then the row slides to the top | `list_title`, `rows` `[[name, msg, time], ...]` (up to 6), `target` (index of the row to pin) |
 | `menu_pick` | Tapping the 3-dot menu, picking an item, picking an option in the bottom sheet (optional), then an "Undo" pop-up confirms | `base` (`"compose"` or `"email"`), compose: `from`, `to`, `subject`, `body` (paragraphs); email: `subject`, `sender`, `time`, `body`. Then `menu` (items), `pick` (index), `sheet_title`, `sheet` `[[label, detail], ...]`, `sheet_pick`, `toast`, `toast_action` |
 | `swipe_action` | An inbox list, swiping one row away to reveal the action, the gap closing, then an "Undo" pop-up | `list_title`, `section`, `rows` `[[sender, subject, snippet, time], ...]` (up to 5), `target`, `direction` (`"left"` or `"right"`), `action_label`, `action_color`, `toast`, `toast_action` |
 | `map_action` | A drawn city map with the blue dot. `"dot_sheet"` mode: tap the dot, pick an option in the sheet, then a parking pin drops (`"parking"`) or a live-sharing card appears (`"share"`). `"offline"` mode: profile menu, a selected area, the Download button, then a progress bar | `mode`, `result`, `sheet_title`, `sheet`, `sheet_pick`, `pin_label`, `contact`, `share_for`, `menu`, `pick`, `frame_title`, `panel_title`, `panel_sub`, `button`, `toast`, `toast_action` |
+| `camera_action` | An iPhone-style camera with a drawn sunset landscape. `"lock"` mode: press and hold, the yellow AE/AF LOCK box and banner appear, then the sun slider sets brightness. `"burst"` mode: slide the shutter left, a photo counter runs, then "24 photos" | `mode`, `exposure` (e.g. `-0.3`), `count`, `result_label` |
+| `video_player` | A video app with the player on top, plus title, channel, chips and "Up next". `"double_tap"` mode: skip 10s twice with the ripple effect. `"hold_speed"` mode: press and hold for a "2x" pill. `"settings"` mode: tap the video, the gear, a settings sheet, an option sheet, then a pop-up | `mode`, `skip_label`, `speed_label`, `video_title`, `channel`, `sheet_title`, `sheet`, `sheet_pick`, `sheet2_title`, `sheet2`, `sheet2_pick`, `toast`, `toast_action` |
+| `music_player` | A dark music player with album art, progress bar and controls. `"menu"` mode: 3-dot menu, a sheet, an option sheet, then a pop-up. `"shuffle"` mode: tap shuffle (on), tap again for Smart Shuffle, then a "pick" badge | `mode`, `color`, `art_seed`, `playlist`, `song`, `artist`, `sheet…` (same as video_player), `rec_title`, `rec_artist`, `rec_label`, `toast` |
 | `settings_toggle` | A settings list, tapping a row, the detail page slides in, then a switch flips | `title`, `rows` (labels, up to 7), `tap` (index), `detail_title`, `detail_text`, `toggle_label`, `toggle_sub`, `start_on` (`true` animates the switch turning **off**) |
 
 You can mix screen types in the same reel.
+
+Per-trick extras:
+- `"touch": "dark"` or `"light"` inside `screen` overrides the finger color for that trick (for example, white settings screens inside a camera reel).
+- `"caption_times": [[0.4, 2.3], [2.45, 4.7]]` on a trick moves the two caption windows. Times are in 5-second scene units and get stretched by the pace.
+- `swipe_action` supports `"row_style": "track"` (album art, song, artist, duration) for music apps.
+
+Extra `app` colors for dark or custom apps: `text`, `text2`, `sheet_bg`, `sheet_text`, `sheet_muted`, `toast_bg`, `toast_text`, `toast_action`, and `bubble_time` (`false` hides message times).
 
 ## Content checklist before posting
 

@@ -1,0 +1,192 @@
+{
+  "output": "reel.mp4",
+  "handle": "@keepmesignedin",
+  "pace": "relaxed",
+  "badge": "TRICK",
+  "app": {
+    "name": "YouTube",
+    "header": "#FFFFFF",
+    "header_text": "#0F0F0F",
+    "screen_bg": "#FFFFFF",
+    "accent": "#FF0000",
+    "touch": "dark",
+    "toast_action": "#3EA6FF"
+  },
+  "hook": {
+    "kicker": "APP TIPS · YOUTUBE",
+    "line1": "YouTube tricks",
+    "line2": "you'll use every day",
+    "teaser": "#3 is made for watching in bed"
+  },
+  "tricks": [
+    {
+      "title": "Double-tap to skip",
+      "chip": "Skip",
+      "screen": {
+        "type": "video_player",
+        "mode": "double_tap",
+        "skip_label": "10 seconds"
+      },
+      "captions": [
+        [
+          "Double-tap the right side",
+          "to skip 10 seconds"
+        ],
+        [
+          "Left side goes back.",
+          "Keep tapping to skip more."
+        ]
+      ]
+    },
+    {
+      "title": "Hold for 2x speed",
+      "chip": "2x",
+      "screen": {
+        "type": "video_player",
+        "mode": "hold_speed",
+        "speed_label": "2x"
+      },
+      "captions": [
+        [
+          "Press and hold the video",
+          "→ instant 2x speed"
+        ],
+        [
+          "Let go and it's back",
+          "to normal speed"
+        ]
+      ]
+    },
+    {
+      "title": "Set a sleep timer",
+      "chip": "Sleep",
+      "screen": {
+        "type": "video_player",
+        "mode": "settings",
+        "sheet_title": "Settings",
+        "sheet": [
+          [
+            "Quality",
+            "Auto (1080p)"
+          ],
+          [
+            "Captions",
+            "Off"
+          ],
+          [
+            "Playback speed",
+            "Normal"
+          ],
+          [
+            "Sleep timer",
+            "Off"
+          ],
+          [
+            "Additional settings",
+            ""
+          ]
+        ],
+        "sheet_pick": 3,
+        "sheet2_title": "Sleep timer",
+        "sheet2": [
+          [
+            "10 minutes",
+            ""
+          ],
+          [
+            "15 minutes",
+            ""
+          ],
+          [
+            "20 minutes",
+            ""
+          ],
+          [
+            "30 minutes",
+            ""
+          ],
+          [
+            "45 minutes",
+            ""
+          ],
+          [
+            "60 minutes",
+            ""
+          ],
+          [
+            "End of video",
+            ""
+          ]
+        ],
+        "sheet2_pick": 3,
+        "toast": "Sleep timer set for 30 minutes",
+        "toast_action": "Cancel"
+      },
+      "captions": [
+        [
+          "Tap the video → Settings",
+          "→ Sleep timer"
+        ],
+        [
+          "It pauses on its own",
+          "when time's up"
+        ]
+      ]
+    }
+  ],
+  "cta": {
+    "line1": "Which trick",
+    "line2": "will you use first?",
+    "prompt": "COMMENT THE NUMBER",
+    "button": "Follow @keepmesignedin"
+  },
+  "post": {
+    "caption": "3 YouTube tricks you'll use every day ▶️\n\n1️⃣ Double-tap the right side to skip 10 seconds\n2️⃣ Press and hold the video for 2x speed\n3️⃣ Settings → Sleep timer, perfect for watching in bed\n\nWhich one will you use first? Comment 1, 2 or 3 👇\nSave this for later 🔖",
+    "hashtags": [
+      "youtube",
+      "youtubetips",
+      "youtubetricks",
+      "techtips",
+      "apptips",
+      "phonehacks"
+    ]
+  },
+  "youtube": {
+    "title": "3 YouTube Tricks You'll Use Every Day ▶️ #youtube #shorts",
+    "alt_titles": [
+      "You're Watching YouTube Wrong: 3 Tricks #shorts",
+      "3 Hidden YouTube Player Features #shorts"
+    ],
+    "description": "3 YouTube tricks that make watching way better 👇\n\n1️⃣ Double-tap to skip\nDouble-tap the right side of the video to skip ahead 10 seconds, or the left side to go back. Keep tapping to jump further.\n\n2️⃣ Hold for 2x speed\nPress and hold anywhere on the video to play it at 2x speed. Let go and it returns to normal. Great for slow intros.\n\n3️⃣ Set a sleep timer\nTap the video → Settings → Sleep timer and pick how long. The video pauses on its own, perfect for falling asleep to a video.\n\n💬 Which trick will you use first? Comment 1, 2 or 3!\n\n🔔 Subscribe for quick app tutorials every week.\n\n🌐 More tips and AI prompts: https://keepmesignedin.com\n\n#youtube #youtubetips #techtips #youtubetricks #phonehacks #shorts",
+    "tags": [
+      "youtube tricks",
+      "youtube tips",
+      "youtube hidden features",
+      "youtube hacks",
+      "youtube app tips",
+      "double tap to skip youtube",
+      "youtube 2x speed",
+      "hold for 2x speed youtube",
+      "youtube sleep timer",
+      "youtube playback speed",
+      "youtube settings",
+      "youtube tutorial",
+      "phone tips",
+      "android tips",
+      "iphone tips",
+      "app tips",
+      "tech tips",
+      "keep me signed in"
+    ],
+    "hashtags": [
+      "youtube",
+      "youtubetips",
+      "techtips",
+      "youtubetricks",
+      "phonehacks",
+      "shorts"
+    ],
+    "category": "Howto & Style",
+    "pinned_comment": "Which one will you use first? 1, 2 or 3? 👇"
+  }
+}

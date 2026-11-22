@@ -1,0 +1,149 @@
+{
+  "output": "reel.mp4",
+  "handle": "@keepmesignedin",
+  "pace": "relaxed",
+  "badge": "TRICK",
+  "app": {
+    "name": "iPhone Camera",
+    "header": "#F2F2F7",
+    "header_text": "#000000",
+    "screen_bg": "#F2F2F7",
+    "accent": "#34C759",
+    "touch": "light"
+  },
+  "hook": {
+    "kicker": "APP TIPS · IPHONE CAMERA",
+    "line1": "iPhone Camera tricks",
+    "line2": "pros actually use",
+    "teaser": "#2 fixes photos that come out too bright"
+  },
+  "tricks": [
+    {
+      "title": "Turn on the grid",
+      "chip": "Grid",
+      "screen": {
+        "type": "settings_toggle",
+        "touch": "dark",
+        "title": "Settings",
+        "rows": [
+          "General",
+          "Accessibility",
+          "Camera",
+          "Control Center",
+          "Display & Brightness",
+          "Photos"
+        ],
+        "tap": 2,
+        "detail_title": "Camera",
+        "detail_text": "Show a grid over the camera to help you straighten and compose your shot.",
+        "toggle_label": "Grid",
+        "toggle_sub": "Composition"
+      },
+      "captions": [
+        [
+          "Settings → Camera",
+          "→ turn on Grid"
+        ],
+        [
+          "Straight horizons and",
+          "the rule of thirds, built in"
+        ]
+      ]
+    },
+    {
+      "title": "Lock focus & exposure",
+      "chip": "Lock",
+      "screen": {
+        "type": "camera_action",
+        "mode": "lock",
+        "exposure": -0.3
+      },
+      "captions": [
+        [
+          "Press and hold your subject",
+          "→ AE/AF LOCK"
+        ],
+        [
+          "Drag the sun to set brightness.",
+          "It stays locked."
+        ]
+      ]
+    },
+    {
+      "title": "Shoot in burst mode",
+      "chip": "Burst",
+      "screen": {
+        "type": "camera_action",
+        "mode": "burst",
+        "count": 24,
+        "result_label": "24 photos"
+      },
+      "captions": [
+        [
+          "Slide the shutter left",
+          "and hold"
+        ],
+        [
+          "Dozens of shots in seconds.",
+          "Keep the sharpest one."
+        ]
+      ]
+    }
+  ],
+  "cta": {
+    "line1": "Which trick",
+    "line2": "was new to you?",
+    "prompt": "COMMENT THE NUMBER",
+    "button": "Follow @keepmesignedin"
+  },
+  "post": {
+    "caption": "3 iPhone Camera tricks pros actually use 📸\n\n1️⃣ Turn on the grid (Settings → Camera → Grid)\n2️⃣ Press and hold to lock focus & exposure, then drag the sun to adjust\n3️⃣ Slide the shutter left for burst mode\n\nWhich one was new to you? Comment 1, 2 or 3 👇\nSave this for your next photo 🔖",
+    "hashtags": [
+      "iphone",
+      "iphonephotography",
+      "iphonetips",
+      "phototips",
+      "techtips",
+      "apptips",
+      "shotoniphone"
+    ]
+  },
+  "youtube": {
+    "title": "3 iPhone Camera Tricks Pros Actually Use 📸 #iphone #shorts",
+    "alt_titles": [
+      "Your iPhone Photos Will Never Look the Same #shorts",
+      "3 Hidden iPhone Camera Features #shorts"
+    ],
+    "description": "3 iPhone Camera tricks that instantly level up your photos 👇\n\n1️⃣ Turn on the grid\nSettings → Camera → turn on Grid. Use the lines to keep horizons straight and place your subject on the rule of thirds.\n\n2️⃣ Lock focus & exposure\nIn the Camera app, press and hold on your subject until you see AE/AF LOCK. Then drag the sun icon up or down to set the brightness. Focus and exposure stay locked even if you move.\n\n3️⃣ Shoot in burst mode\nSlide the shutter button to the left and hold. Your iPhone fires off dozens of shots in seconds, perfect for kids, pets and sports. Keep the sharpest one.\n\n💬 Which trick was new to you? Comment 1, 2 or 3!\n\n🔔 Subscribe for quick app tutorials every week.\n\n🌐 More tips and AI prompts: https://keepmesignedin.com\n\n#iphone #iphonephotography #phototips #iphonetips #shotoniphone #shorts",
+    "tags": [
+      "iphone camera tricks",
+      "iphone camera tips",
+      "iphone photography tips",
+      "iphone camera settings",
+      "iphone hidden features",
+      "iphone grid camera",
+      "ae af lock iphone",
+      "lock focus iphone",
+      "iphone exposure",
+      "iphone burst mode",
+      "how to take better photos",
+      "phone photography",
+      "iphone tips and tricks",
+      "ios camera",
+      "shot on iphone",
+      "photography tips",
+      "tech tips",
+      "keep me signed in"
+    ],
+    "hashtags": [
+      "iphone",
+      "iphonephotography",
+      "phototips",
+      "iphonetips",
+      "shotoniphone",
+      "shorts"
+    ],
+    "category": "Howto & Style",
+    "pinned_comment": "Which one was new to you? 1, 2 or 3? 👇"
+  }
+}

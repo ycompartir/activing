@@ -1,0 +1,250 @@
+{
+  "output": "reel.mp4",
+  "handle": "@keepmesignedin",
+  "pace": "relaxed",
+  "badge": "TRICK",
+  "app": {
+    "name": "Spotify",
+    "header": "#121212",
+    "header_text": "#FFFFFF",
+    "screen_bg": "#121212",
+    "accent": "#1DB954",
+    "touch": "light",
+    "text": "#FFFFFF",
+    "text2": "#B3B3B3",
+    "sheet_bg": "#282828",
+    "sheet_text": "#FFFFFF",
+    "sheet_muted": "#B3B3B3",
+    "toast_bg": "#FFFFFF",
+    "toast_text": "#121212",
+    "toast_action": "#121212"
+  },
+  "hook": {
+    "kicker": "APP TIPS · SPOTIFY",
+    "line1": "Spotify tricks",
+    "line2": "worth trying tonight",
+    "teaser": "#1 is perfect for falling asleep"
+  },
+  "tricks": [
+    {
+      "title": "Set a sleep timer",
+      "chip": "Sleep",
+      "screen": {
+        "type": "music_player",
+        "mode": "menu",
+        "color": "#7A3B5C",
+        "art_seed": 4,
+        "song": "Neon Skyline",
+        "artist": "The Midnight Hours",
+        "sheet_title": "Neon Skyline",
+        "sheet": [
+          [
+            "Add to playlist",
+            ""
+          ],
+          [
+            "Add to queue",
+            ""
+          ],
+          [
+            "Go to album",
+            ""
+          ],
+          [
+            "Go to artist",
+            ""
+          ],
+          [
+            "Sleep timer",
+            ""
+          ],
+          [
+            "Share",
+            ""
+          ]
+        ],
+        "sheet_pick": 4,
+        "sheet2_title": "Stop audio in",
+        "sheet2": [
+          [
+            "5 minutes",
+            ""
+          ],
+          [
+            "10 minutes",
+            ""
+          ],
+          [
+            "15 minutes",
+            ""
+          ],
+          [
+            "30 minutes",
+            ""
+          ],
+          [
+            "45 minutes",
+            ""
+          ],
+          [
+            "1 hour",
+            ""
+          ],
+          [
+            "End of track",
+            ""
+          ]
+        ],
+        "sheet2_pick": 3,
+        "toast": "Your sleep timer is set",
+        "toast_action": ""
+      },
+      "captions": [
+        [
+          "Tap the 3-dot menu",
+          "→ Sleep timer"
+        ],
+        [
+          "The music stops on its own",
+          "while you drift off"
+        ]
+      ]
+    },
+    {
+      "title": "Swipe to add to queue",
+      "chip": "Queue",
+      "screen": {
+        "type": "swipe_action",
+        "row_style": "track",
+        "list_title": "Liked Songs",
+        "section": "248 songs",
+        "rows": [
+          [
+            "Golden Hour Drive",
+            "Sunset Static",
+            "3:28"
+          ],
+          [
+            "Paper Planes",
+            "Lumen Bay",
+            "2:57"
+          ],
+          [
+            "After the Rain",
+            "Velvet Coast",
+            "4:02"
+          ],
+          [
+            "Midnight Train",
+            "The Midnight Hours",
+            "3:41"
+          ],
+          [
+            "Slow Bloom",
+            "Ivy & Ash",
+            "3:15"
+          ]
+        ],
+        "target": 1,
+        "direction": "right",
+        "action_label": "Add to queue",
+        "action_color": "#1DB954",
+        "toast": "Added to queue",
+        "toast_action": ""
+      },
+      "captions": [
+        [
+          "Swipe any song right",
+          "→ Add to queue"
+        ],
+        [
+          "It plays next without",
+          "messing up your playlist"
+        ]
+      ]
+    },
+    {
+      "title": "Try Smart Shuffle",
+      "chip": "Smart",
+      "screen": {
+        "type": "music_player",
+        "mode": "shuffle",
+        "color": "#2E5E7A",
+        "art_seed": 9,
+        "song": "Neon Skyline",
+        "artist": "The Midnight Hours",
+        "rec_title": "Ocean Avenue",
+        "rec_artist": "Sunset Static",
+        "rec_label": "Smart Shuffle pick",
+        "toast": "Smart Shuffle is on",
+        "toast_action": ""
+      },
+      "captions": [
+        [
+          "Tap shuffle twice",
+          "→ Smart Shuffle"
+        ],
+        [
+          "Mixes in new songs that",
+          "match your playlist"
+        ]
+      ]
+    }
+  ],
+  "cta": {
+    "line1": "Which trick",
+    "line2": "are you trying tonight?",
+    "prompt": "COMMENT THE NUMBER",
+    "button": "Follow @keepmesignedin"
+  },
+  "post": {
+    "caption": "3 Spotify tricks worth trying tonight 🎧\n\n1️⃣ Sleep timer: 3-dot menu → Sleep timer\n2️⃣ Swipe a song right to add it to your queue\n3️⃣ Tap shuffle twice for Smart Shuffle (Premium)\n\nWhich one are you trying tonight? Comment 1, 2 or 3 👇\nSave this for later 🔖",
+    "hashtags": [
+      "spotify",
+      "spotifytips",
+      "music",
+      "techtips",
+      "apptips",
+      "phonehacks",
+      "playlist"
+    ]
+  },
+  "youtube": {
+    "title": "3 Spotify Tricks Worth Trying Tonight 🎧 #spotify #shorts",
+    "alt_titles": [
+      "3 Spotify Features You're Not Using #shorts",
+      "Spotify Hacks Every Music Lover Needs #shorts"
+    ],
+    "description": "3 Spotify tricks most listeners never find 👇\n\n1️⃣ Set a sleep timer\nOn the song that's playing, tap the 3-dot menu → Sleep timer and pick how long. The music stops on its own while you fall asleep.\n\n2️⃣ Swipe to add to queue\nIn any playlist or album, swipe a song to the right to add it to your queue. It plays next without changing your playlist.\n\n3️⃣ Try Smart Shuffle\nTap the shuffle button twice to turn on Smart Shuffle. Spotify mixes in new songs that match the vibe of your playlist (Spotify Premium).\n\n💬 Which trick are you trying tonight? Comment 1, 2 or 3!\n\n🔔 Subscribe for quick app tutorials every week.\n\n🌐 More tips and AI prompts: https://keepmesignedin.com\n\n#spotify #spotifytips #music #techtips #playlist #shorts",
+    "tags": [
+      "spotify tricks",
+      "spotify tips",
+      "spotify hidden features",
+      "spotify hacks",
+      "spotify sleep timer",
+      "spotify add to queue",
+      "spotify swipe to queue",
+      "spotify smart shuffle",
+      "smart shuffle",
+      "spotify premium features",
+      "spotify tutorial",
+      "spotify playlist tips",
+      "music app tips",
+      "phone tips",
+      "android tips",
+      "iphone tips",
+      "tech tips",
+      "keep me signed in"
+    ],
+    "hashtags": [
+      "spotify",
+      "spotifytips",
+      "music",
+      "techtips",
+      "playlist",
+      "shorts"
+    ],
+    "category": "Howto & Style",
+    "pinned_comment": "Which one are you trying tonight? 1, 2 or 3? 👇"
+  }
+}
