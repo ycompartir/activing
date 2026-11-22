@@ -8,8 +8,14 @@ N = int(FPS * DUR)
 OUT = sys.argv[1] if len(sys.argv) > 1 else "reel.mp4"
 FD = "/usr/share/fonts/opentype/inter/"
 
+import os
+BR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "brand") + "/"
 @functools.lru_cache(None)
 def F(kind, size):
+    # Brand fonts: "D600" = Space Grotesk weight 600, "M500" = JetBrains Mono, "I500" = Inter (from keepmesignedin.com)
+    if kind[0] in "DMI" and kind[1:].isdigit():
+        f = ImageFont.truetype(BR + {"D": "space-grotesk", "M": "jetbrains-mono", "I": "inter"}[kind[0]] + "-latin-wght-normal.woff2", size)
+        f.set_variation_by_axes([int(kind[1:])]); return f
     path = {"black": FD + "Inter-Black.otf", "bold": FD + "Inter-Bold.otf", "semi": FD + "Inter-SemiBold.otf",
             "reg": FD + "Inter-Regular.otf", "ital": FD + "Inter-Italic.otf",
             "mono": "/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf"}[kind]
@@ -17,6 +23,9 @@ def F(kind, size):
 
 # ---------- palette ----------
 INK = (18, 20, 28); WHITE = (255, 255, 255); ACC = (37, 211, 102); ACC2 = (255, 214, 10)
+# keepmesignedin.com brand tokens
+BASE = (247, 245, 240); INKB = (20, 19, 15); CREAM = (242, 240, 234); MUTEDB = (110, 108, 102)
+C_VIDEO = (242, 92, 84); C_IMAGE = (124, 92, 255); C_AUDIO = (20, 184, 166); C_PROD = (245, 165, 36); C_SHOP = (37, 99, 235)
 TEAL = (0, 128, 105); CHATBG = (236, 229, 221); OUTB = (217, 253, 211); MUTED = (120, 126, 140)
 
 # ---------- easing ----------
@@ -30,21 +39,24 @@ def lerp(a, b, x): return a + (b - a) * x
 # ---------- background (animated gradient + soft blobs) ----------
 yy, xx = np.mgrid[0:H, 0:W].astype(np.float32)
 def background(t):
-    k = (np.sin(t * 0.6) + 1) / 2
-    top = np.array([lerp(12, 22, k), lerp(16, 10, k), lerp(40, 48, k)], np.float32)
-    bot = np.array([lerp(6, 4, k), lerp(60, 40, k), lerp(52, 70, k)], np.float32)
-    g = (yy / H)[..., None]
-    img = top * (1 - g) + bot * g
-    for cx, cy, r, col, sp in [(200, 400, 520, (37, 211, 102), .7), (900, 1500, 600, (0, 160, 255), .5)]:
+    img = np.broadcast_to(np.array(BASE, np.float32), (H, W, 3)).copy()
+    for cx, cy, r, col, sp, amt in [(120, 380, 480, C_AUDIO, .7, .22), (980, 1560, 560, C_IMAGE, .5, .16), (1000, 300, 300, C_PROD, .9, .14)]:
         cx2 = cx + 120 * math.sin(t * sp); cy2 = cy + 90 * math.cos(t * sp * 1.3)
-        d = np.exp(-(((xx - cx2) ** 2 + (yy - cy2) ** 2) / (2 * r * r)))[..., None] * 0.28
+        d = np.exp(-(((xx - cx2) ** 2 + (yy - cy2) ** 2) / (2 * r * r)))[..., None] * amt
         img = img * (1 - d) + np.array(col, np.float32) * d
     return Image.fromarray(img.clip(0, 255).astype(np.uint8), "RGB").convert("RGBA")
 
 # ---------- text helpers ----------
 @functools.lru_cache(4096)
-def text_img(s, kind, size, color, stroke=0, stroke_col=(0, 0, 0)):
+def text_img(s, kind, size, color, stroke=0, stroke_col=(0, 0, 0), ls=0.0):
     f = F(kind, size)
+    if ls:
+        asc, desc = f.getmetrics(); trk = ls * size
+        w_ = int(f.getlength(s) + trk * (len(s) - 1)) + 8
+        im = Image.new("RGBA", (w_, asc + desc + 4), (0, 0, 0, 0)); d = ImageDraw.Draw(im)
+        for i, ch in enumerate(s):
+            d.text((4 + f.getlength(s[:i]) + trk * i, 2), ch, font=f, fill=color)
+        return im.crop(im.getbbox() or (0, 0, 1, 1))
     l, t_, r, b = f.getbbox(s, stroke_width=stroke)
     im = Image.new("RGBA", (r - l + 4, b - t_ + 4), (0, 0, 0, 0))
     ImageDraw.Draw(im).text((2 - l, 2 - t_), s, font=f, fill=color, stroke_width=stroke, stroke_fill=stroke_col)
@@ -74,7 +86,7 @@ PW, PH = 780, 1240
 def phone(canvas, cx, cy, scale=1.0):
     """Draws the phone frame and returns an RGBA 'screen' image + its paste position; caller draws into screen."""
     x0, y0 = cx - PW / 2, cy - PH / 2
-    shadowed(canvas, (x0, y0, x0 + PW, y0 + PH), 90, (14, 14, 18), blur=40, off=30, sh_alpha=150)
+    shadowed(canvas, (x0, y0, x0 + PW, y0 + PH), 90, (14, 14, 18), blur=44, off=34, sh_alpha=85)
     d = ImageDraw.Draw(canvas)
     d.rounded_rectangle((x0 + 3, y0 + 3, x0 + PW - 3, y0 + PH - 3), 87, outline=(70, 72, 82), width=3)
     scr = Image.new("RGBA", (PW - 44, PH - 44), CHATBG + (255,))
@@ -193,31 +205,31 @@ def finger(canvas, x, y, press=0.0, alpha=1.0):
     d.ellipse((x - r, y - r, x + r, y + r), fill=(255, 255, 255, int(150 * alpha)), outline=(255, 255, 255, int(230 * alpha)), width=4)
 
 # ---------- overlays ----------
-def top_title(canvas, t, t0, badge, title, col=ACC):
+def top_title(canvas, t, t0, badge, title, col=C_VIDEO, txtcol=INKB):
     p = prog(t, t0, t0 + 0.45)
-    paste(canvas, pill_img(badge, col), W / 2, 150, back(p) if p < 1 else 1, min(1, p * 2))
+    paste(canvas, pill_img(badge, col, txtcol), W / 2, 150, back(p) if p < 1 else 1, min(1, p * 2))
     p2 = prog(t, t0 + 0.12, t0 + 0.6)
-    paste(canvas, text_img(title, "black", 76, WHITE), W / 2, 265 + 40 * (1 - ease_out(p2)), 1, p2)
+    paste(canvas, text_img(title, "D600", 86, INKB, ls=-0.03), W / 2, 268 + 40 * (1 - ease_out(p2)), 1, p2)
 
 @functools.lru_cache(64)
-def pill_img(txt, col):
-    t = text_img(txt, "black", 40, INK)
-    im = Image.new("RGBA", (t.width + 70, t.height + 36), (0, 0, 0, 0))
+def pill_img(txt, col, txtcol=INKB, kind="M600", size=34, ls=0.08, padx=40, pady=20):
+    t = text_img(txt, kind, size, txtcol, ls=ls)
+    im = Image.new("RGBA", (t.width + padx * 2, t.height + pady * 2), (0, 0, 0, 0))
     ImageDraw.Draw(im).rounded_rectangle((0, 0, im.width - 1, im.height - 1), im.height // 2, fill=col)
-    im.alpha_composite(t, (35, 18)); return im
+    im.alpha_composite(t, (padx, pady)); return im
 
 def caption(canvas, t, t0, t1, line1, line2=None):
     if not (t0 <= t < t1 + 0.3): return
     p = ease_out(prog(t, t0, t0 + 0.35)); q = 1 - prog(t, t1, t1 + 0.25)
     a = p * q
-    im = text_img(line1, "bold", 50, WHITE, 0)
-    box_w = im.width + 80; lines = [im]
+    im = text_img(line1, "D600", 50, CREAM, ls=-0.02)
+    box_w = im.width + 90; lines = [im]
     if line2:
-        im2 = text_img(line2, "bold", 50, ACC2); lines.append(im2); box_w = max(box_w, im2.width + 80)
+        im2 = text_img(line2, "D600", 50, C_PROD, ls=-0.02); lines.append(im2); box_w = max(box_w, im2.width + 90)
     bh = 30 + sum(l.height + 14 for l in lines) + 16
     y0 = 1690 - bh / 2 + 30 * (1 - p)
     layer = Image.new("RGBA", (int(box_w), int(bh)), (0, 0, 0, 0))
-    ImageDraw.Draw(layer).rounded_rectangle((0, 0, box_w - 1, bh - 1), 28, fill=(10, 10, 14, 215))
+    ImageDraw.Draw(layer).rounded_rectangle((0, 0, box_w - 1, bh - 1), 26, fill=INKB + (242,))
     yy_ = 26
     for l in lines: layer.alpha_composite(l, (int((box_w - l.width) / 2), yy_)); yy_ += l.height + 14
     paste(canvas, layer, W / 2, y0 + bh / 2, 1, a)
@@ -228,9 +240,9 @@ def progress(canvas, t):
     gap, x = 10, 40; tot = W - 80 - gap * 4
     for a, b in segs:
         w_ = tot * (b - a) / 20
-        d.rounded_rectangle((x, 44, x + w_, 52), 4, fill=(255, 255, 255, 70))
+        d.rounded_rectangle((x, 44, x + w_, 52), 4, fill=INKB + (38,))
         fw = w_ * prog(t, a, b)
-        if fw > 2: d.rounded_rectangle((x, 44, x + fw, 52), 4, fill=(255, 255, 255, 235))
+        if fw > 2: d.rounded_rectangle((x, 44, x + fw, 52), 4, fill=INKB + (230,))
         x += w_ + gap
 
 def slide_offset(t, t0, t1):
@@ -243,29 +255,33 @@ def scene_hook(c, t):
     # big "3" slam, then title words cascade
     p = prog(t, 0.0, 0.5)
     s3 = back(p, 2.4) if p < 1 else 1 + 0.03 * math.sin(t * 6)
-    glow = text_img("3", "black", 560, ACC, 0)
-    paste(c, glow, W / 2, 720, s3 * (1.0 + 0.6 * (1 - p)), min(1, p * 3))
-    words = [("WHATSAPP", WHITE, 0.45), ("TRICKS", ACC2, 0.65), ("nobody told you", WHITE, 0.85)]
-    y = 1130
-    for i, (w_, col, t0) in enumerate(words):
+    q0 = prog(t, 0.0, 0.35)
+    paste(c, text_img("APP TIPS · WHATSAPP", "M500", 34, MUTEDB, ls=0.1), W / 2, 330, 1, q0)
+    # big "3" on a coral tile (site section-tile motif)
+    tile = Image.new("RGBA", (440, 520), (0, 0, 0, 0))
+    ImageDraw.Draw(tile).rounded_rectangle((0, 0, 439, 519), 56, fill=C_VIDEO)
+    n3 = text_img("3", "D700", 470, INKB); tile.alpha_composite(n3, ((440 - n3.width) // 2, (520 - n3.height) // 2))
+    tile = tile.rotate(-4 * (1 - ease_out(p)) + 3, resample=Image.BICUBIC, expand=True)
+    paste(c, tile, W / 2, 720, s3 * (1.0 + 0.6 * (1 - p)), min(1, p * 3))
+    q = ease_out(prog(t, 1.15, 1.7))
+    ImageDraw.Draw(c).rounded_rectangle((W / 2 - 350, 1300, W / 2 - 350 + 700 * q, 1336), 10, fill=C_PROD)
+    words = [("WhatsApp tricks", INKB, 0.45, "D700", 118), ("nobody told you", INKB, 0.7, "D500", 96)]
+    y = 1150
+    for i, (w_, col, t0, kind, size) in enumerate(words):
         q = prog(t, t0, t0 + 0.4)
-        kind, size = ("black", 120) if i < 2 else ("bold", 70)
-        im = text_img(w_, kind, size, col)
+        im = text_img(w_, kind, size, col, ls=-0.035)
         paste(c, im, W / 2 + 300 * (1 - ease_out(q)) * (1 if i % 2 else -1), y, 1, q)
-        y += im.height + 34
-    # ticking underline
-    q = ease_out(prog(t, 1.2, 1.8))
-    d = ImageDraw.Draw(c); d.rounded_rectangle((W / 2 - 330 * q, 1520, W / 2 + 330 * q, 1534), 7, fill=ACC)
+        y += im.height + 40
     q2 = prog(t, 1.6, 2.0)
-    paste(c, text_img("#2 will change how you take notes", "semi", 40, (200, 205, 215)), W / 2, 1610, 1, q2)
-    # exit: zoom + fade
+    paste(c, text_img("#2 will change how you take notes", "I500", 40, MUTEDB), W / 2, 1460, 1, q2)
+    # exit: fade to base
     out = prog(t, 2.7, 3.0)
     if out > 0:
-        ov = Image.new("RGBA", (W, H), (10, 12, 20, int(255 * out))); c.alpha_composite(ov)
+        ov = Image.new("RGBA", (W, H), BASE + (int(255 * out),)); c.alpha_composite(ov)
 
 def scene_format(c, t):
     lt = t - 3
-    top_title(c, t, 3.0, "TRICK #1", "Format your texts")
+    top_title(c, t, 3.0, "TRICK #1", "Format your texts", C_VIDEO)
     scr, pos = phone(c, W / 2, 1010)
     chat_header(scr, "Alex")
     bubble(scr, 230, [("See you at 8?", "reg")], out=False, time_="9:38")
@@ -288,7 +304,7 @@ def scene_format(c, t):
 
 def scene_self(c, t):
     lt = t - 8
-    top_title(c, t, 8.0, "TRICK #2", "Message yourself")
+    top_title(c, t, 8.0, "TRICK #2", "Message yourself", C_IMAGE, WHITE)
     scr, pos = phone(c, W / 2, 1010)
     opened = lt > 2.3
     if not opened:
@@ -331,7 +347,7 @@ def scene_self(c, t):
 
 def scene_pin(c, t):
     lt = t - 13
-    top_title(c, t, 13.0, "TRICK #3", "Pin your top chats")
+    top_title(c, t, 13.0, "TRICK #3", "Pin your top chats", C_AUDIO)
     scr, pos = phone(c, W / 2, 1010)
     list_header(scr)
     rows = [("Team", "Deck is ready", "9:30", AV_COLS[1]), ("Sam", "haha yes", "9:02", AV_COLS[0]),
@@ -374,24 +390,30 @@ def scene_pin(c, t):
 def scene_cta(c, t):
     lt = t - 18
     p = prog(lt, 0, 0.45)
-    paste(c, text_img("Which trick", "black", 104, WHITE), W / 2, 560, back(p) if p < 1 else 1, p)
-    paste(c, text_img("was new to you?", "black", 104, ACC2), W / 2, 700, back(prog(lt, .1, .55)) if lt < .55 else 1, prog(lt, .1, .4))
-    # three numbered chips
+    paste(c, text_img("Which trick", "D700", 110, INKB, ls=-0.035), W / 2, 560, back(p) if p < 1 else 1, p)
+    paste(c, text_img("was new to you?", "D500", 96, INKB, ls=-0.035), W / 2, 700, back(prog(lt, .1, .55)) if lt < .55 else 1, prog(lt, .1, .4))
+    # three numbered chips in the site's section-tile colors
     for i, lab in enumerate(["1  Format", "2  Notes", "3  Pin"]):
         q = prog(lt, 0.3 + i * 0.12, 0.65 + i * 0.12)
-        im = pill_img(lab, [ACC, ACC2, (120, 200, 255)][i])
+        im = pill_img(lab, [C_VIDEO, C_IMAGE, C_AUDIO][i], [INKB, WHITE, INKB][i], "D600", 46, -0.01, 46, 22)
         paste(c, im, W / 2, 900 + i * 125, back(q) if q < 1 else 1, min(1, q * 2))
     q = prog(lt, 0.8, 1.2)
-    paste(c, text_img("Comment the number", "semi", 52, WHITE), W / 2, 1320, 1, q)
-    # save + follow buttons
+    paste(c, text_img("COMMENT THE NUMBER", "M500", 36, MUTEDB, ls=0.08), W / 2, 1320, 1, q)
+    # follow button (site .pl-btn: ink pill, cream text) with the K mark
     b = prog(lt, 1.0, 1.4)
-    btn = Image.new("RGBA", (760, 140), (0, 0, 0, 0))
-    bd = ImageDraw.Draw(btn); bd.rounded_rectangle((0, 0, 759, 139), 70, fill=WHITE)
-    # bookmark glyph
-    bd.polygon([(70, 35), (110, 35), (110, 105), (90, 88), (70, 105)], fill=INK)
-    bd.text((420, 70), "Follow @keepmesignedin", font=F("black", 44), fill=INK, anchor="mm")
+    btn = Image.new("RGBA", (800, 140), (0, 0, 0, 0))
+    bd = ImageDraw.Draw(btn); bd.rounded_rectangle((0, 0, 799, 139), 70, fill=INKB)
+    btn.alpha_composite(kmark(64, CREAM), (64, 38))
+    lab = text_img("Follow @keepmesignedin", "D600", 46, CREAM, ls=-0.01)
+    btn.alpha_composite(lab, (int(160 + (800 - 160 - 50 - lab.width) / 2), int(70 - lab.height / 2)))
     pulse = 1 + 0.04 * math.sin(lt * 10) * (lt > 1.4)
     paste(c, btn, W / 2, 1520, (back(b) if b < 1 else 1) * pulse, b)
+
+@functools.lru_cache(16)
+def kmark(h, col):
+    m = Image.open(BR + "k-mark.png").convert("RGBA").getchannel("A")
+    m = m.resize((int(m.width * h / m.height), h), Image.LANCZOS)
+    im = Image.new("RGBA", m.size, col + (255,)); im.putalpha(m); return im
 
 SCENES = [(0, 3, scene_hook), (3, 8, scene_format), (8, 13, scene_self), (13, 18, scene_pin), (18, 20, scene_cta)]
 
@@ -407,7 +429,10 @@ def frame(i):
             bg.alpha_composite(layer, (0, 0)) if abs(off) < 1 else bg.paste(layer, (int(off), 0), layer)
     progress(bg, t)
     # handle tag
-    paste(bg, text_img("@keepmesignedin", "semi", 30, (255, 255, 255, 150)), W - 190, H - 80)
+    wm = text_img("@keepmesignedin", "M500", 28, INKB + (150,), ls=0.02)
+    paste(bg, wm, W - 56 - wm.width / 2, H - 78)
+    km = kmark(36, INKB).copy(); km.putalpha(km.getchannel("A").point(lambda v: v * 150 // 255))
+    bg.alpha_composite(km, (int(W - 56 - wm.width - 16 - km.width), int(H - 78 - km.height / 2)))
     return bg.convert("RGB")
 
 # ---------- audio ----------
