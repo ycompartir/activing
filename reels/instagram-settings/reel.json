@@ -1,6 +1,7 @@
 {
   "output": "reel.mp4",
   "handle": "@keepmesignedin",
+  "pace": "fast",
   "badge": "SETTING",
   "app": {
     "name": "Instagram",

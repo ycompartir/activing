@@ -8,7 +8,9 @@ Usage:
 
 All content comes from the JSON file (see reels/template/README.md for the schema).
 Brand look (fonts, colors, K mark) comes from reels/template/brand/ (keepmesignedin.com).
-Timing: hook 3s + 5s per trick + CTA 2s  (3 tricks = 20s).
+Timing ("pace" in the JSON):
+    "relaxed" (default): hook 3.5s + 7.5s per trick + CTA 3s  (3 tricks = 29s), every animation 1.5x slower
+    "fast":              hook 3s   + 5s per trick   + CTA 2s  (3 tricks = 20s)
 """
 import functools, json, math, os, re, subprocess, sys, wave
 import numpy as np
@@ -782,8 +784,8 @@ SCREENS = {"chat_send": (screen_chat_send, (0.6, 2.9), (3.0, 4.7)),
 ACTION_AT = {"chat_send": 2.95, "search_open": 2.4, "long_press_pin": 2.5, "settings_toggle": 2.8,
              "menu_pick": 3.0, "swipe_action": 2.0, "map_action": 2.4}
 
-def scene_trick(c, t, cfg, i, t0):
-    tr = cfg["tricks"][i]; lt = t - t0
+def scene_trick(c, t, cfg, i, t0, k=1.0):
+    tr = cfg["tricks"][i]; lt = (t - t0) / k   # k > 1 slows every animation in the scene
     col, tcol = TRICK_COLORS[i % len(TRICK_COLORS)]
     top_title(c, t, t0, f'{cfg.get("badge", "TRICK")} #{i + 1}', tr["title"], col, tcol)
     fn, capA, capB = SCREENS[tr["screen"]["type"]]
@@ -817,22 +819,29 @@ def scene_cta(c, t, cfg, t0):
     paste(c, btn, W / 2, 1560, (back(b) if b < 1 else 1) * pulse, b)
 
 # ===================================================================== timeline
-HOOK, TRICK, CTA = 3.0, 5.0, 2.0
+PACES = {"fast": (3.0, 5.0, 2.0), "relaxed": (3.5, 7.5, 3.0)}
+def pace(cfg):
+    """(hook, trick, cta) durations + stretch factors for hook and trick animations (designed at 3s / 5s)."""
+    p = cfg.get("pace", "relaxed")
+    hook, trick, cta = PACES[p] if isinstance(p, str) else (p["hook"], p["trick"], p["cta"])
+    return hook, trick, cta, hook / 3.0, trick / 5.0
+
 def timeline(cfg):
+    HOOK, TRICK, CTA, _, _ = pace(cfg)
     n = len(cfg["tricks"])
     segs = [(0, HOOK)] + [(HOOK + i * TRICK, HOOK + (i + 1) * TRICK) for i in range(n)]
     segs.append((segs[-1][1], segs[-1][1] + CTA))
     return segs, segs[-1][1]
 
 def frame(cfg, i):
-    segs, total = timeline(cfg); t = i / FPS
+    segs, total = timeline(cfg); t = i / FPS; _, _, _, kh, kt = pace(cfg)
     bg = background(t)
     for k, (a, b) in enumerate(segs):
         if not (a - 0.01 <= t < b): continue
         layer = Image.new("RGBA", (W, H), (0, 0, 0, 0))
-        if k == 0: scene_hook(layer, t, cfg); off = 0
+        if k == 0: scene_hook(layer, t / kh, cfg); off = 0
         elif k == len(segs) - 1: scene_cta(layer, t, cfg, a); off = slide_offset(t, a, b + 1)
-        else: scene_trick(layer, t, cfg, k - 1, a); off = slide_offset(t, a, b)
+        else: scene_trick(layer, t, cfg, k - 1, a, kt); off = slide_offset(t, a, b)
         if abs(off) < 1: bg.alpha_composite(layer)
         else: bg.paste(layer, (int(off), 0), layer)
     progress(bg, t, segs, total)
@@ -879,7 +888,7 @@ def make_audio(path, cfg):
     pop = np.sin(2 * np.pi * (900 * pt - 2500 * pt ** 2)) * np.exp(-pt * 35)
     pops = [0.05, cta0, cta0 + 0.3, cta0 + 0.42, cta0 + 0.54]
     for i, (s0, _) in enumerate(segs[1:-1]):
-        pops += [s0, s0 + ACTION_AT[cfg["tricks"][i]["screen"]["type"]]]
+        pops += [s0, s0 + ACTION_AT[cfg["tricks"][i]["screen"]["type"]] * pace(cfg)[4]]
     for t0 in pops: add(pop, t0, 0.35)
     a *= np.minimum(1, (dur - tt) / 0.8)
     pcm = (np.tanh(a * 1.3) * 0.85 * 32767).astype(np.int16)
@@ -938,7 +947,7 @@ def youtube_text(cfg):
 
 def write_extras(cfg, outdir):
     """cover.png (hook at full reveal, for the Reels/TikTok cover) + post.txt (caption + hashtags) + youtube.txt."""
-    frame(cfg, int(2.3 * FPS)).save(os.path.join(outdir, "cover.png"))
+    frame(cfg, int(2.3 * pace(cfg)[3] * FPS)).save(os.path.join(outdir, "cover.png"))
     if cfg.get("youtube"):
         open(os.path.join(outdir, "youtube.txt"), "w").write(youtube_text(cfg))
     post = cfg.get("post")
@@ -957,7 +966,8 @@ def main():
     if "--meta" in sys.argv:
         print("metadata ->", outdir); return
     if "--stills" in sys.argv:
-        times = [1.6] + [a + 2.0 for a, _ in segs[1:-1]] + [a + 4.0 for a, _ in segs[1:-1]] + [dur - 0.5]
+        kt = pace(cfg)[4]
+        times = [1.6] + [a + 2.0 * kt for a, _ in segs[1:-1]] + [a + 4.0 * kt for a, _ in segs[1:-1]] + [dur - 0.5]
         os.makedirs(os.path.join(outdir, "stills"), exist_ok=True)
         for t in sorted(times):
             frame(cfg, int(t * FPS)).save(os.path.join(outdir, "stills", f"t{t:05.2f}.png"))

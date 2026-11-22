@@ -45,7 +45,14 @@ Requirements: Python 3 with `pillow` and `numpy`, plus `ffmpeg`.
 
 ## Timing
 
-Hook **3s**, then **5s per trick**, then the CTA **2s**. With 3 tricks the reel is exactly **20s**. You can use 1 to 5 tricks.
+Set it with `"pace"` in the JSON:
+
+| `pace` | Hook | Each trick | CTA | 3 tricks | Animations |
+|---|---|---|---|---|---|
+| `"relaxed"` (default) | 3.5s | 7.5s | 3s | **29s** | 1.5× slower: taps, typing, menus and captions stay on screen longer |
+| `"fast"` | 3s | 5s | 2s | **20s** | Original speed (used by the first four reels) |
+
+You can use 1 to 5 tricks. For a custom pace, use `"pace": {"hook": 3.5, "trick": 6.5, "cta": 3}`.
 
 ## JSON schema
 
@@ -53,6 +60,7 @@ Hook **3s**, then **5s per trick**, then the CTA **2s**. With 3 tricks the reel 
 {
   "output": "reel.mp4",              // file name, written next to the JSON
   "handle": "@keepmesignedin",       // watermark (bottom right, with the K mark)
+  "pace": "relaxed",                 // "relaxed" (29s, default) or "fast" (20s)
   "badge": "TRICK",                  // label on each trick: "TRICK #1", "SETTING #2", "HACK #3"...
 
   "app": {                           // colors of the phone mockup (light-mode screens)
