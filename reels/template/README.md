@@ -10,6 +10,7 @@ reels/
     brand/            # Space Grotesk, Inter, JetBrains Mono (from keepmesignedin.com) + K mark
   whatsapp-tricks/reel.json     # example: chat-style screens
   gmail-tricks/reel.json        # example: menu → sheet and swipe screens
+  google-maps-tricks/reel.json  # example: map screens
   instagram-settings/reel.json  # example: settings → toggle screens
 ```
 
@@ -123,6 +124,7 @@ Text that is too long shrinks automatically to fit.
 | `long_press_pin` | Long-pressing a row, the toolbar appears, tapping pin, then the row slides to the top | `list_title`, `rows` `[[name, msg, time], ...]` (up to 6), `target` (index of the row to pin) |
 | `menu_pick` | Tapping the 3-dot menu, picking an item, picking an option in the bottom sheet (optional), then an "Undo" pop-up confirms | `base` (`"compose"` or `"email"`), compose: `from`, `to`, `subject`, `body` (paragraphs); email: `subject`, `sender`, `time`, `body`. Then `menu` (items), `pick` (index), `sheet_title`, `sheet` `[[label, detail], ...]`, `sheet_pick`, `toast`, `toast_action` |
 | `swipe_action` | An inbox list, swiping one row away to reveal the action, the gap closing, then an "Undo" pop-up | `list_title`, `section`, `rows` `[[sender, subject, snippet, time], ...]` (up to 5), `target`, `direction` (`"left"` or `"right"`), `action_label`, `action_color`, `toast`, `toast_action` |
+| `map_action` | A drawn city map with the blue dot. `"dot_sheet"` mode: tap the dot, pick an option in the sheet, then a parking pin drops (`"parking"`) or a live-sharing card appears (`"share"`). `"offline"` mode: profile menu, a selected area, the Download button, then a progress bar | `mode`, `result`, `sheet_title`, `sheet`, `sheet_pick`, `pin_label`, `contact`, `share_for`, `menu`, `pick`, `frame_title`, `panel_title`, `panel_sub`, `button`, `toast`, `toast_action` |
 | `settings_toggle` | A settings list, tapping a row, the detail page slides in, then a switch flips | `title`, `rows` (labels, up to 7), `tap` (index), `detail_title`, `detail_text`, `toggle_label`, `toggle_sub`, `start_on` (`true` animates the switch turning **off**) |
 
 You can mix screen types in the same reel.

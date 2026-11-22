@@ -340,8 +340,8 @@ def scene_hook(c, t, cfg):
     tile.alpha_composite(n3, ((tw - n3.width) // 2, (520 - n3.height) // 2))
     tile = tile.rotate(-4 * (1 - ease_out(p)) + 3, resample=Image.BICUBIC, expand=True)
     paste(c, tile, W / 2, 720, s3 * (1.0 + 0.6 * (1 - p)), min(1, p * 3))
-    l1 = fit_text(h["line1"], "D700", 118, INKB, 1000, -0.035)
-    l2 = fit_text(h.get("line2", ""), "D500", 96, INKB, 1000, -0.035) if h.get("line2") else None
+    l1 = fit_text(h["line1"], "D700", 118, INKB, 940, -0.035)
+    l2 = fit_text(h.get("line2", ""), "D500", 96, INKB, 940, -0.035) if h.get("line2") else None
     y1 = 1150; y2 = y1 + l1.height / 2 + 40 + (l2.height / 2 if l2 else 0)
     if l2:  # amber highlighter behind line 2
         q = ease_out(prog(t, 1.15, 1.7)); hw = l2.width / 2 + 10
@@ -636,14 +636,151 @@ def screen_swipe_action(c, scr, pos, lt, sc):
         fx += dirn * sw * (scr.width - 320)
         finger(c, pos[0] + fx, pos[1] + y0 + tgt * RH + RH / 2, prog(lt, 0.8, 1.0) if lt < 1.0 else 0, 1 - prog(lt, 1.8, 2.0))
 
+# -------------------------------------------------------------- map screens
+MAPC = dict(land=(241, 243, 244), block=(232, 234, 237), bldg=(222, 224, 228), edge=(214, 217, 222), road=(255, 255, 255),
+            main=(253, 226, 147), main_edge=(240, 196, 98), water=(170, 218, 255), park=(206, 234, 214))
+BLUE = (26, 115, 232)
+
+@functools.lru_cache(4)
+def map_base(w, h, seed=7):
+    """Procedural city map (streets, blocks, buildings, park, river), rotated for a natural look."""
+    S = int(max(w, h) * 1.6); rng = np.random.default_rng(seed)
+    im = Image.new("RGB", (S, S), MAPC["land"]); d = ImageDraw.Draw(im); step = 190
+    xs, ys = list(range(0, S, step)), list(range(0, S, step))
+    for x in xs:
+        for y in ys:
+            r = rng.random(); col = MAPC["park"] if r < 0.07 else MAPC["block"] if r < 0.8 else MAPC["land"]
+            d.rectangle((x + 14, y + 14, x + step - 14, y + step - 14), fill=col)
+            if col == MAPC["block"]:
+                for _ in range(rng.integers(1, 4)):
+                    bx, by = x + 24 + rng.random() * (step - 100), y + 24 + rng.random() * (step - 100)
+                    d.rectangle((bx, by, bx + 30 + rng.random() * 40, by + 30 + rng.random() * 40), fill=MAPC["bldg"])
+    d.rectangle((xs[3] + 14, ys[5] + 14, xs[5] - 14, ys[7] - 14), fill=MAPC["park"])
+    d.line([(0, S * .30), (S * .25, S * .33), (S * .5, S * .26), (S * .75, S * .31), (S, S * .27)], fill=MAPC["water"], width=130, joint="curve")
+    for v in xs: d.line((v, 0, v, S), fill=MAPC["edge"], width=20)
+    for v in ys: d.line((0, v, S, v), fill=MAPC["edge"], width=20)
+    for v in xs: d.line((v, 0, v, S), fill=MAPC["road"], width=14)
+    for v in ys: d.line((0, v, S, v), fill=MAPC["road"], width=14)
+    for a, b in [((xs[6], 0), (xs[6], S)), ((0, ys[8]), (S, ys[8]))]: d.line((a, b), fill=MAPC["main_edge"], width=38)
+    for a, b in [((xs[6], 0), (xs[6], S)), ((0, ys[8]), (S, ys[8]))]: d.line((a, b), fill=MAPC["main"], width=30)
+    im = im.rotate(14, resample=Image.BICUBIC, fillcolor=MAPC["land"])
+    im = im.crop(((S - w) // 2, (S - h) // 2, (S - w) // 2 + w, (S - h) // 2 + h))
+    d = ImageDraw.Draw(im)
+    for txt, xy, col in [("Mill River", (70, 300), (25, 103, 210)), ("Maple St", (60, 640), (95, 99, 104)),
+                         ("Park Ave", (430, 930), (95, 99, 104)), ("Linden Park", (360, 520), (30, 120, 60))]:
+        d.text(xy, txt, font=F("semi", 24), fill=col, stroke_width=4, stroke_fill=WHITE)
+    return im.convert("RGBA")
+
+def maps_search(s):
+    shadowed(s, (28, 92, s.width - 28, 184), 46, WHITE, blur=10, off=4, sh_alpha=60)
+    d = ImageDraw.Draw(s)
+    d.ellipse((60, 122, 88, 150), outline=MUTED, width=4); d.line((84, 146, 96, 158), fill=MUTED, width=4)
+    d.text((116, 138), "Search here", font=F("reg", 32), fill=MUTED, anchor="lm")
+    d.ellipse((s.width - 110, 108, s.width - 50, 168), fill=AV_COLS[3])
+    d.text((s.width - 80, 138), "Y", font=F("bold", 28), fill=WHITE, anchor="mm")
+
+def overlay_draw(s, fn):
+    """Draw translucent shapes correctly on an opaque RGBA screen."""
+    ov = Image.new("RGBA", s.size, (0, 0, 0, 0)); fn(ImageDraw.Draw(ov)); s.alpha_composite(ov)
+
+def blue_dot(s, x, y, t, ring=0.0):
+    def fn(d):
+        d.pieslice((x - 110, y - 110, x + 110, y + 110), 238, 302, fill=BLUE + (45,))
+        d.ellipse((x - 62, y - 62, x + 62, y + 62), fill=BLUE + (38,))
+        if ring > 0:
+            ph = (t * 0.9) % 1; rr = 40 + 110 * ph
+            d.ellipse((x - rr, y - rr, x + rr, y + rr), outline=BLUE + (int(220 * (1 - ph) * ring),), width=6)
+    overlay_draw(s, fn)
+    d = ImageDraw.Draw(s)
+    d.ellipse((x - 26, y - 26, x + 26, y + 26), fill=WHITE); d.ellipse((x - 19, y - 19, x + 19, y + 19), fill=BLUE)
+
+def parking_pin(s, x, y, k):
+    if k <= 0.02: return
+    d = ImageDraw.Draw(s); r = 34 * k
+    d.polygon([(x - 14 * k, y - 40 * k), (x + 14 * k, y - 40 * k), (x, y - 6 * k)], fill=BLUE)
+    d.rounded_rectangle((x - r, y - 40 * k - 2 * r, x + r, y - 40 * k), 14 * k, fill=BLUE, outline=WHITE, width=max(1, int(4 * k)))
+    d.text((x, y - 40 * k - r), "P", font=F("bold", max(8, int(40 * k))), fill=WHITE, anchor="mm")
+
+def screen_map_action(c, scr, pos, lt, sc):
+    """Map with blue dot. mode "dot_sheet": tap dot -> sheet -> result ("parking" | "share").
+    mode "offline": profile menu -> select area -> Download -> progress -> snackbar."""
+    w, h = scr.size; base = map_base(w, h); z = 1 + 0.05 * prog(lt, 0, 5)
+    cw, ch = w / z, h / z
+    scr.paste(base.crop((int((w - cw) / 2), int((h - ch) / 2), int((w + cw) / 2), int((h + ch) / 2))).resize((w, h), Image.BILINEAR), (0, 0))
+    status_bar(scr, INK)
+    dx, dy = w / 2, h * 0.6; mode = sc.get("mode", "dot_sheet"); result = sc.get("result", "parking")
+    blue_dot(scr, dx, dy, lt, ring=prog(lt, 2.3, 2.6) if (mode == "dot_sheet" and result == "share") else 0)
+    maps_search(scr)
+    fingers = []
+    if mode == "dot_sheet":
+        if result == "parking":
+            k = back(prog(lt, 2.3, 2.7)) if lt > 2.3 else 0; drop = (1 - ease_out(prog(lt, 2.3, 2.55))) * 260
+            parking_pin(scr, dx, dy - 22 - drop, k)
+            if lt > 2.8:
+                a = ease_out(prog(lt, 2.8, 3.1)); lab = sc.get("pin_label", "You parked here")
+                f = F("semi", 28); tw = f.getlength(lab) + 44
+                def fn(d): d.rounded_rectangle((dx - tw / 2, dy - 196, dx + tw / 2, dy - 140), 28, fill=(255, 255, 255, int(255 * a)))
+                overlay_draw(scr, fn)
+                ImageDraw.Draw(scr).text((dx, dy - 168), lab, font=f, fill=INK + (int(255 * a),), anchor="mm") if a > .5 else None
+        else:
+            a = ease_out(prog(lt, 2.3, 2.6))
+            if a > 0:
+                y0 = 210 - 140 * (1 - a); d = ImageDraw.Draw(scr)
+                shadowed(scr, (28, y0, w - 28, y0 + 120), 28, WHITE, blur=10, off=4, sh_alpha=50)
+                d.ellipse((52, y0 + 24, 124, y0 + 96), fill=AV_COLS[3])
+                nm = sc.get("contact", "Maya")
+                d.text((88, y0 + 60), nm[0], font=F("bold", 32), fill=WHITE, anchor="mm")
+                d.text((148, y0 + 40), f"Sharing with {nm}", font=F("semi", 32), fill=INK, anchor="lm")
+                d.text((148, y0 + 82), sc.get("share_for", "For 1 hour"), font=F("reg", 26), fill=MUTED, anchor="lm")
+        opts = [tuple(o) for o in sc.get("sheet", [])]; sp = sc.get("sheet_pick", 0)
+        bottom_sheet(scr, sc.get("sheet_title", "Your location"), opts, ease_out(prog(lt, 1.0, 1.3)) * (1 - ease_io(prog(lt, 2.0, 2.25))), sp, prog(lt, 1.65, 1.8))
+        if sc.get("toast") and lt > 2.6: snackbar(scr, sc["toast"], sc.get("toast_action", ""), ease_out(prog(lt, 2.65, 2.9)))
+        if 0.45 < lt < 1.05: fingers.append((dx, dy, prog(lt, 0.6, 0.95), 1 - prog(lt, 0.9, 1.05)))
+        if 1.4 < lt < 2.0: fingers.append((w * 0.4, sheet_top(scr, len(opts)) + 120 + sp * SHEET_RH + SHEET_RH / 2, prog(lt, 1.6, 1.9), 1 - prog(lt, 1.85, 2.0)))
+    else:  # offline
+        items = sc.get("menu", ["Your profile", "Your timeline", "Location sharing", "Offline maps", "Settings"]); pick = sc.get("pick", 3)
+        popup_menu(scr, items, ease_out(prog(lt, 0.95, 1.15)) * (1 - prog(lt, 1.7, 1.8)), pick, prog(lt, 1.45, 1.6))
+        mx, my, lw, lh = menu_geom(scr, len(items))
+        if 0.45 < lt < 1.0: fingers.append((w - 80, 138, prog(lt, 0.65, 0.95), 1 - prog(lt, 0.9, 1.0)))
+        if 1.2 < lt < 1.75: fingers.append((mx + 30 + MENU_W * 0.4, my + 32 + pick * MENU_IH + MENU_IH / 2, prog(lt, 1.4, 1.65), 1 - prog(lt, 1.6, 1.75)))
+        a = ease_out(prog(lt, 1.75, 2.05)) * (1 - prog(lt, 3.55, 3.8))
+        if a > 0:
+            fx0, fy0, fx1, fy1 = 70, 300, w - 70, h - 430
+            def fn(d):
+                d.rectangle((0, 0, w, h), fill=(0, 0, 0, int(120 * a)))
+                d.rectangle((fx0, fy0, fx1, fy1), fill=(0, 0, 0, 0))
+                d.rectangle((fx0, fy0, fx1, fy1), outline=BLUE + (int(255 * a),), width=5)
+            overlay_draw(scr, fn)
+            d = ImageDraw.Draw(scr)
+            d.text((w / 2, 255), sc.get("frame_title", "Select the area to download"), font=F("semi", 30), fill=WHITE, anchor="mm") if a > .6 else None
+            py = h - 380 + (1 - a) * 400
+            d.rounded_rectangle((0, py, w, h + 40), 36, fill=WHITE)
+            d.text((40, py + 60), sc.get("panel_title", "Download this map?"), font=F("semi", 34), fill=INK, anchor="lm")
+            p_ = prog(lt, 2.8, 3.5)
+            sub = f"Downloading… {int(p_ * 100)}%" if lt > 2.8 else sc.get("panel_sub", "Takes up to 120 MB of space")
+            d.text((40, py + 112), sub, font=F("reg", 28), fill=MUTED, anchor="lm")
+            if lt <= 2.8:
+                pr = 1 - 0.06 * prog(lt, 2.55, 2.75)
+                bx1, by0 = w - 40, py + 170; bw_ = 260 * pr
+                d.rounded_rectangle((bx1 - bw_, by0, bx1, by0 + 90 * pr), 45, fill=BLUE)
+                d.text((bx1 - bw_ / 2, by0 + 45 * pr), sc.get("button", "Download"), font=F("semi", 32), fill=WHITE, anchor="mm")
+            else:
+                d.rounded_rectangle((40, py + 200, w - 40, py + 216), 8, fill=(222, 226, 232))
+                d.rounded_rectangle((40, py + 200, 40 + (w - 80) * p_, py + 216), 8, fill=BLUE)
+            if 2.3 < lt < 2.9: fingers.append((w - 170, h - 380 + 215, prog(lt, 2.5, 2.8), 1 - prog(lt, 2.75, 2.9)))
+        if sc.get("toast") and lt > 3.7: snackbar(scr, sc["toast"], sc.get("toast_action", ""), ease_out(prog(lt, 3.75, 4.0)))
+    finish_phone(c, scr, pos)
+    for fx, fy, pr_, al in fingers: finger(c, pos[0] + fx, pos[1] + fy, pr_, al)
+
 SCREENS = {"chat_send": (screen_chat_send, (0.6, 2.9), (3.0, 4.7)),
            "search_open": (screen_search_open, (0.5, 2.3), (2.4, 4.7)),
            "long_press_pin": (screen_long_press_pin, (0.5, 2.4), (2.5, 4.7)),
            "settings_toggle": (screen_settings_toggle, (0.5, 2.6), (2.7, 4.7)),
            "menu_pick": (screen_menu_pick, (0.4, 2.8), (2.95, 4.7)),
-           "swipe_action": (screen_swipe_action, (0.5, 2.2), (2.35, 4.7))}
+           "swipe_action": (screen_swipe_action, (0.5, 2.2), (2.35, 4.7)),
+           "map_action": (screen_map_action, (0.4, 2.2), (2.35, 4.7))}
 ACTION_AT = {"chat_send": 2.95, "search_open": 2.4, "long_press_pin": 2.5, "settings_toggle": 2.8,
-             "menu_pick": 3.0, "swipe_action": 2.0}
+             "menu_pick": 3.0, "swipe_action": 2.0, "map_action": 2.4}
 
 def scene_trick(c, t, cfg, i, t0):
     tr = cfg["tricks"][i]; lt = t - t0

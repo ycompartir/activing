@@ -1,0 +1,90 @@
+{
+  "output": "reel.mp4",
+  "handle": "@keepmesignedin",
+  "badge": "TRICK",
+  "app": {
+    "name": "Google Maps",
+    "header": "#FFFFFF",
+    "header_text": "#1F1F1F",
+    "screen_bg": "#F1F3F4",
+    "accent": "#1A73E8",
+    "touch": "dark"
+  },
+  "hook": {
+    "kicker": "APP TIPS · GOOGLE MAPS",
+    "line1": "Google Maps tricks",
+    "line2": "you'll use every week",
+    "teaser": "#2 ends the “where did I park?” panic"
+  },
+  "tricks": [
+    {
+      "title": "Use maps with no signal",
+      "chip": "Offline",
+      "screen": {
+        "type": "map_action",
+        "mode": "offline",
+        "menu": ["Your profile", "Your timeline", "Location sharing", "Offline maps", "Settings"],
+        "pick": 3,
+        "frame_title": "Select the area to download",
+        "panel_title": "Download this map?",
+        "panel_sub": "Takes up to 120 MB of space",
+        "button": "Download",
+        "toast": "Offline map downloaded",
+        "toast_action": "View"
+      },
+      "captions": [["Profile picture → Offline maps", "→ Select your own map"], ["Navigate with zero signal,", "even in airplane mode"]]
+    },
+    {
+      "title": "Save your parking spot",
+      "chip": "Parking",
+      "screen": {
+        "type": "map_action",
+        "mode": "dot_sheet",
+        "result": "parking",
+        "sheet_title": "Your location",
+        "sheet": [["Share location", ""], ["Save parking", ""], ["Calibrate", ""]],
+        "sheet_pick": 1,
+        "pin_label": "You parked here",
+        "toast": "Parking location saved",
+        "toast_action": "Add note"
+      },
+      "captions": [["Tap the blue dot", "→ Save parking"], ["Add a note like", "“Level 3, spot B12”"]]
+    },
+    {
+      "title": "Share your live location",
+      "chip": "Share",
+      "screen": {
+        "type": "map_action",
+        "mode": "dot_sheet",
+        "result": "share",
+        "contact": "Maya",
+        "share_for": "For 1 hour",
+        "sheet_title": "Your location",
+        "sheet": [["Share location", ""], ["Save parking", ""], ["Calibrate", ""]],
+        "sheet_pick": 0,
+        "toast": "Maya can see you live for 1 hour",
+        "toast_action": "Stop"
+      },
+      "captions": [["Tap the blue dot", "→ Share location"], ["Pick who and how long.", "They see you move live."]]
+    }
+  ],
+  "cta": {
+    "line1": "Which trick",
+    "line2": "will you use first?",
+    "prompt": "COMMENT THE NUMBER",
+    "button": "Follow @keepmesignedin"
+  },
+  "post": {
+    "caption": "3 Google Maps tricks you'll use every week 🗺️\n\n1️⃣ Download maps to use with no signal\n2️⃣ Save your parking spot in one tap\n3️⃣ Share your live location for a set time\n\nWhich one will you use first? Comment 1, 2 or 3 👇\nSave this before your next trip 🔖",
+    "hashtags": ["googlemaps", "maps", "traveltips", "techtips", "apptips", "phonehacks", "roadtrip"]
+  },
+  "youtube": {
+    "title": "3 Google Maps Tricks You'll Use Every Week 🗺️ #googlemaps #shorts",
+    "alt_titles": ["Stop Losing Your Car: 3 Google Maps Tricks #shorts", "3 Google Maps Features Everyone Should Know #shorts"],
+    "description": "3 Google Maps tricks you'll actually use every week 👇\n\n1️⃣ Use maps with no signal\nTap your profile picture → Offline maps → Select your own map → Download. Search and get driving directions even with zero signal or in airplane mode. Perfect for road trips and travel abroad.\n\n2️⃣ Save your parking spot\nTap the blue dot → Save parking. A pin marks exactly where you left the car. Add a note like \"Level 3, spot B12\" so you never wander a parking garage again.\n\n3️⃣ Share your live location\nTap the blue dot → Share location → pick a contact and how long. They see you move in real time until the timer runs out.\n\n💬 Which trick will you use first? Comment 1, 2 or 3!\n\n🔔 Subscribe for quick app tutorials every week.\n\n🌐 More tips and AI prompts: https://keepmesignedin.com\n\n#googlemaps #traveltips #techtips #maps #roadtrip #shorts",
+    "tags": ["google maps tricks", "google maps tips", "google maps hidden features", "google maps hacks", "google maps tutorial", "offline maps", "google maps offline", "download google maps offline", "save parking google maps", "find my car", "share live location", "google maps location sharing", "travel tips", "road trip tips", "phone tips", "android tips", "iphone tips", "app tips", "tech tips", "keep me signed in"],
+    "hashtags": ["googlemaps", "traveltips", "techtips", "maps", "roadtrip", "shorts"],
+    "category": "Travel & Events",
+    "pinned_comment": "Which one will you use first? 1, 2 or 3? 👇"
+  }
+}
