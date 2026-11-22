@@ -1,0 +1,66 @@
+{
+  "output": "reel.mp4",
+  "handle": "@keepmesignedin",
+  "badge": "TRICK",
+  "app": {
+    "name": "WhatsApp",
+    "header": "#008069",
+    "screen_bg": "#ECE5DD",
+    "bubble_out": "#D9FDD3",
+    "accent": "#25D366",
+    "touch": "light"
+  },
+  "hook": {
+    "kicker": "APP TIPS · WHATSAPP",
+    "line1": "WhatsApp tricks",
+    "line2": "nobody told you",
+    "teaser": "#2 will change how you take notes"
+  },
+  "tricks": [
+    {
+      "title": "Format your texts",
+      "chip": "Format",
+      "screen": {
+        "type": "chat_send",
+        "contact": "Alex",
+        "incoming": ["See you at 8?"],
+        "type_text": "*Bold* _italic_ ~strike~ ```mono```",
+        "sent": "*Bold* _italic_ ~strike~ `mono`"
+      },
+      "captions": [["Wrap words in symbols:", "*bold*  _italic_  ~strike~"], ["Works in any chat.", "No extra app needed."]]
+    },
+    {
+      "title": "Message yourself",
+      "chip": "Notes",
+      "screen": {
+        "type": "search_open",
+        "list_title": "Chats",
+        "query": "Me",
+        "result": ["Me (You)", "Message yourself"],
+        "others": [["Mom", "Call me when you land", "9:12"], ["Team", "Deck is ready", "8:47"], ["Sam", "haha yes", "Yesterday"]],
+        "open_title": "Me (You)",
+        "open_sub": "Message yourself",
+        "items": ["*Wi-Fi:* `Blue-Fox-42`", "*Groceries:* milk, eggs, coffee", "*Read later:* _bit.ly/app-tips_", "Gift idea for Mom *!!*"]
+      },
+      "captions": [["Search your own name", "or tap your number"], ["Your private notepad,", "synced on every device"]]
+    },
+    {
+      "title": "Pin your top chats",
+      "chip": "Pin",
+      "screen": {
+        "type": "long_press_pin",
+        "list_title": "Chats",
+        "rows": [["Team", "Deck is ready", "9:30"], ["Sam", "haha yes", "9:02"], ["Gym crew", "Leg day tomorrow", "8:15"],
+                 ["Mom", "Call me when you land", "Yesterday"], ["Dentist", "Reminder: Thu 10am", "Mon"]],
+        "target": 3
+      },
+      "captions": [["Long-press a chat,", "then tap the pin"], ["Up to 3 chats stay", "on top. Always."]]
+    }
+  ],
+  "cta": {
+    "line1": "Which trick",
+    "line2": "was new to you?",
+    "prompt": "COMMENT THE NUMBER",
+    "button": "Follow @keepmesignedin"
+  }
+}

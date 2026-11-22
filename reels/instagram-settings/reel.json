@@ -1,0 +1,73 @@
+{
+  "output": "reel.mp4",
+  "handle": "@keepmesignedin",
+  "badge": "SETTING",
+  "app": {
+    "name": "Instagram",
+    "header": "#FFFFFF",
+    "header_text": "#000000",
+    "screen_bg": "#FFFFFF",
+    "accent": "#0095F6",
+    "touch": "dark"
+  },
+  "hook": {
+    "kicker": "APP TIPS · INSTAGRAM",
+    "line1": "Instagram settings",
+    "line2": "to change today",
+    "teaser": "#3 makes you invisible"
+  },
+  "tricks": [
+    {
+      "title": "Hide like counts",
+      "chip": "Likes",
+      "screen": {
+        "type": "settings_toggle",
+        "title": "Settings and activity",
+        "rows": ["Notifications", "Privacy", "Close Friends", "Like and share counts", "Time management", "Archive"],
+        "tap": 3,
+        "detail_title": "Like and share counts",
+        "detail_text": "Hide the number of likes and shares on posts from other accounts.",
+        "toggle_label": "Hide like & share counts",
+        "toggle_sub": "On posts in your feed"
+      },
+      "captions": [["Settings and activity →", "Like and share counts"], ["Scroll without", "the numbers game"]]
+    },
+    {
+      "title": "Turn on Quiet mode",
+      "chip": "Quiet",
+      "screen": {
+        "type": "settings_toggle",
+        "title": "Settings and activity",
+        "rows": ["Notifications", "Privacy", "Close Friends", "Like and share counts", "Time management", "Archive"],
+        "tap": 0,
+        "detail_title": "Notifications",
+        "detail_text": "Mute notifications and auto-reply to DMs while you focus or sleep.",
+        "toggle_label": "Quiet mode",
+        "toggle_sub": "Schedule it for any hours"
+      },
+      "captions": [["Settings → Notifications", "→ Quiet mode"], ["Silence at night,", "auto-replies to DMs"]]
+    },
+    {
+      "title": "Hide when you're online",
+      "chip": "Status",
+      "screen": {
+        "type": "settings_toggle",
+        "title": "Settings and activity",
+        "rows": ["Notifications", "Privacy", "Messages and story replies", "Close Friends", "Time management", "Archive"],
+        "tap": 2,
+        "detail_title": "Activity status",
+        "detail_text": "Let accounts you follow and anyone you message see when you were last active.",
+        "toggle_label": "Show activity status",
+        "toggle_sub": "Turn it off to go invisible",
+        "start_on": true
+      },
+      "captions": [["Messages and story replies", "→ Show activity status"], ["Switch it off.", "Nobody sees you online."]]
+    }
+  ],
+  "cta": {
+    "line1": "Which one",
+    "line2": "will you change?",
+    "prompt": "COMMENT THE NUMBER",
+    "button": "Follow @keepmesignedin"
+  }
+}
