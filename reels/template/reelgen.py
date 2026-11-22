@@ -468,10 +468,181 @@ def screen_settings_toggle(c, scr, pos, lt, sc):
     if 2.45 < lt < 3.15:
         finger(c, pos[0] + b.width - 100, pos[1] + card_y + 75, prog(lt, 2.7, 3.05), 1 - prog(lt, 3.0, 3.15))
 
+# ---------------------------------------------------------- mail-style widgets
+def star(d, cx, cy, r, col):
+    pts = [(cx + (r if k % 2 == 0 else r * .45) * math.sin(k * math.pi / 5), cy - (r if k % 2 == 0 else r * .45) * math.cos(k * math.pi / 5)) for k in range(10)]
+    d.polygon(pts, outline=col, width=3)
+
+def kebab(d, x, y, col):
+    for i in (-1, 0, 1): d.ellipse((x - 5, y + i * 16 - 5, x + 5, y + i * 16 + 5), fill=col)
+
+def email_row(s, y, sender, subject, snippet, time_, col, unread=True):
+    d = ImageDraw.Draw(s)
+    d.ellipse((32, y + 30, 112, y + 110), fill=col)
+    d.text((72, y + 70), sender[0].upper(), font=F("bold", 36), fill=WHITE, anchor="mm")
+    d.text((140, y + 24), sender, font=fit_font("bold" if unread else "semi", 32, sender, s.width - 330), fill=INK)
+    d.text((s.width - 36, y + 30), time_, font=F("bold" if unread else "reg", 24), fill=INK if unread else MUTED, anchor="ra")
+    d.text((140, y + 68), subject, font=fit_font("semi" if unread else "reg", 28, subject, s.width - 200), fill=INK)
+    d.text((140, y + 108), snippet, font=fit_font("reg", 26, snippet, s.width - 230), fill=MUTED)
+    star(d, s.width - 56, y + 122, 17, MUTED)
+
+def snackbar(s, text, action, appear):
+    if appear <= 0: return
+    d = ImageDraw.Draw(s); y = s.height - 150 + (1 - appear) * 220
+    d.rounded_rectangle((24, y, s.width - 24, y + 104), 18, fill=(48, 48, 50))
+    act_f = F("semi", 30); aw = act_f.getlength(action) if action else 0
+    d.text((56, y + 52), text, font=fit_font("reg", 30, text, s.width - 160 - aw), fill=WHITE, anchor="lm")
+    if action: d.text((s.width - 56, y + 52), action, font=act_f, fill=mix(T["accent"], WHITE, 0.55), anchor="rm")
+
+def mail_header(s, title="", icons=()):
+    d = ImageDraw.Draw(s); ht = T["header_text"]
+    d.rectangle((0, 0, s.width, 200), fill=T["header"]); header_rule(s, 200)
+    status_bar(s, ht); back_arrow(d, ht, 140)
+    if title: d.text((90, 140), title, font=F("semi", 38), fill=ht, anchor="lm")
+    x = s.width - 150
+    for ic in icons:
+        if ic == "send": d.polygon([(x - 20, 120), (x + 24, 140), (x - 20, 160), (x - 12, 140)], fill=ht)
+        elif ic == "clip":
+            d.arc((x - 12, 116, x + 12, 164), 200, 160, fill=ht, width=4)
+        elif ic == "archive":
+            d.rectangle((x - 22, 122, x + 22, 134), outline=ht, width=4); d.rectangle((x - 18, 134, x + 18, 160), outline=ht, width=4)
+            d.line((x - 7, 145, x + 7, 145), fill=ht, width=4)
+        elif ic == "trash":
+            d.line((x - 22, 126, x + 22, 126), fill=ht, width=4); d.rectangle((x - 16, 130, x + 16, 162), outline=ht, width=4)
+            d.line((x - 6, 120, x + 6, 120), fill=ht, width=4)
+        x -= 90
+    kebab(d, s.width - 60, 140, ht)
+
+def base_compose(s, sc):
+    mail_header(s, "Compose", ("send",)); d = ImageDraw.Draw(s); y = 210
+    for lab, val in [("From", sc.get("from", "me@example.com")), ("To", sc.get("to", "")), ("", sc.get("subject", ""))]:
+        vx = 130 if lab else 40
+        if lab: d.text((40, y + 45), lab, font=F("reg", 30), fill=MUTED, anchor="lm")
+        if lab == "To" and val:
+            w_ = F("reg", 28).getlength(val) + 80
+            d.rounded_rectangle((vx, y + 18, vx + w_, y + 72), 27, outline=(205, 205, 210), width=2)
+            d.ellipse((vx + 6, y + 24, vx + 48, y + 66), fill=AV_COLS[0])
+            d.text((vx + 27, y + 45), val[0].upper(), font=F("bold", 22), fill=WHITE, anchor="mm")
+            d.text((vx + 58, y + 45), val, font=F("reg", 28), fill=INK, anchor="lm")
+        else:
+            d.text((vx, y + 45), val, font=fit_font("reg" if lab else "semi", 30, val, s.width - vx - 40), fill=INK, anchor="lm")
+        d.line((0, y + 90, s.width, y + 90), fill=(228, 228, 232), width=2); y += 90
+    y += 34
+    for para in sc.get("body", []):
+        for ln in wrap(para, F("reg", 30), s.width - 80): d.text((40, y), ln, font=F("reg", 30), fill=INK); y += 46
+        y += 22
+
+def base_email(s, sc):
+    mail_header(s, "", ("trash", "archive")); d = ImageDraw.Draw(s); y = 230
+    for ln in wrap(sc.get("subject", ""), F("semi", 40), s.width - 80)[:3]:
+        d.text((40, y), ln, font=F("semi", 40), fill=INK); y += 56
+    y += 30; snd = sc.get("sender", "Sender")
+    d.ellipse((40, y, 120, y + 80), fill=AV_COLS[2])
+    d.text((80, y + 40), snd[0].upper(), font=F("bold", 34), fill=WHITE, anchor="mm")
+    d.text((144, y + 6), snd, font=fit_font("semi", 32, snd, s.width - 330), fill=INK)
+    d.text((144, y + 48), "to me", font=F("reg", 26), fill=MUTED)
+    d.text((s.width - 40, y + 10), sc.get("time", "9:14 AM"), font=F("reg", 24), fill=MUTED, anchor="ra")
+    y += 130
+    for para in sc.get("body", []):
+        for ln in wrap(para, F("reg", 30), s.width - 80): d.text((40, y), ln, font=F("reg", 30), fill=INK); y += 46
+        y += 22
+
+MENU_W, MENU_IH = 460, 88
+def menu_geom(s, n):
+    lw, lh = MENU_W + 60, MENU_IH * n + 24 + 60
+    return s.width - 10 - lw, 120, lw, lh   # x, y, w, h of the menu layer
+
+def popup_menu(s, items, appear, hi_idx=None, hi=0.0):
+    if appear <= 0.01: return
+    mx, my, lw, lh = menu_geom(s, len(items))
+    layer = Image.new("RGBA", (lw, lh), (0, 0, 0, 0))
+    shadowed(layer, (30, 20, 30 + MENU_W, 20 + MENU_IH * len(items) + 24), 22, WHITE, blur=14, off=8, sh_alpha=120)
+    d = ImageDraw.Draw(layer)
+    d.rounded_rectangle((30, 20, 30 + MENU_W, 20 + MENU_IH * len(items) + 24), 22, outline=(222, 222, 228), width=2)
+    for i, it in enumerate(items):
+        y = 32 + i * MENU_IH
+        if i == hi_idx and hi > 0: d.rectangle((30, y, 30 + MENU_W, y + MENU_IH), fill=mix(WHITE, T["accent"], 0.14 * hi))
+        d.text((66, y + MENU_IH / 2), it, font=fit_font("reg", 32, it, MENU_W - 70), fill=INK, anchor="lm")
+    sc_ = max(0.05, appear)
+    if sc_ < 1: layer = layer.resize((max(1, int(lw * sc_)), max(1, int(lh * sc_))), Image.LANCZOS)
+    s.paste(layer, (int(mx + lw - layer.width), my), layer)
+
+SHEET_RH = 104
+def sheet_top(s, n): return s.height - (130 + SHEET_RH * n + 70)
+
+def bottom_sheet(s, title, opts, appear, hi_idx=None, hi=0.0):
+    if appear <= 0.01: return
+    s.alpha_composite(Image.new("RGBA", s.size, (0, 0, 0, int(90 * appear))))
+    full = s.height - sheet_top(s, len(opts)); y0 = s.height - full * appear
+    d = ImageDraw.Draw(s)
+    d.rounded_rectangle((0, y0, s.width, s.height + 60), 36, fill=WHITE)
+    d.rounded_rectangle((s.width / 2 - 40, y0 + 16, s.width / 2 + 40, y0 + 24), 4, fill=(205, 205, 210))
+    d.text((40, y0 + 72), title, font=F("semi", 34), fill=INK, anchor="lm")
+    for i, (lab, det) in enumerate(opts):
+        y = y0 + 120 + i * SHEET_RH
+        if i == hi_idx and hi > 0: d.rectangle((0, y, s.width, y + SHEET_RH), fill=mix(WHITE, T["accent"], 0.14 * hi))
+        d.text((40, y + SHEET_RH / 2), lab, font=fit_font("reg", 32, lab, s.width - 330), fill=INK, anchor="lm")
+        if det: d.text((s.width - 40, y + SHEET_RH / 2), det, font=F("reg", 26), fill=MUTED, anchor="rm")
+
+def screen_menu_pick(c, scr, pos, lt, sc):
+    """Tap the 3-dot menu -> pick an item -> (optional) bottom sheet option -> snackbar confirmation."""
+    (base_email if sc.get("base") == "email" else base_compose)(scr, sc)
+    items = sc["menu"]; pick = sc.get("pick", 0); opts = [tuple(o) for o in sc.get("sheet", [])]; sp = sc.get("sheet_pick", 0)
+    popup_menu(scr, items, ease_out(prog(lt, 0.95, 1.15)) * (1 - prog(lt, 1.75, 1.85)), pick, prog(lt, 1.45, 1.6))
+    if opts:
+        bottom_sheet(scr, sc.get("sheet_title", items[pick]), opts,
+                     ease_out(prog(lt, 1.85, 2.2)) * (1 - ease_io(prog(lt, 2.85, 3.1))), sp, prog(lt, 2.5, 2.65))
+    if sc.get("toast") and lt > 3.0:
+        snackbar(scr, sc["toast"], sc.get("toast_action", "Undo"), ease_out(prog(lt, 3.05, 3.3)))
+    finish_phone(c, scr, pos)
+    if 0.45 < lt < 1.0:
+        finger(c, pos[0] + scr.width - 60, pos[1] + 140, prog(lt, 0.65, 0.95), 1 - prog(lt, 0.9, 1.0))
+    mx, my, lw, lh = menu_geom(scr, len(items))
+    if 1.2 < lt < 1.8:
+        finger(c, pos[0] + mx + 30 + MENU_W * 0.4, pos[1] + my + 32 + pick * MENU_IH + MENU_IH / 2,
+               prog(lt, 1.4, 1.7), 1 - prog(lt, 1.65, 1.8))
+    if opts and 2.25 < lt < 2.9:
+        finger(c, pos[0] + scr.width * 0.4, pos[1] + sheet_top(scr, len(opts)) + 120 + sp * SHEET_RH + SHEET_RH / 2,
+               prog(lt, 2.45, 2.8), 1 - prog(lt, 2.75, 2.9))
+
+def screen_swipe_action(c, scr, pos, lt, sc):
+    """Inbox-style list -> swipe one row away revealing the action -> list closes the gap -> snackbar."""
+    list_header(scr, sc.get("list_title", "Inbox")); d = ImageDraw.Draw(scr)
+    d.text((40, 236), sc.get("section", "Primary"), font=F("semi", 26), fill=MUTED)
+    rows = sc["rows"][:5]; tgt = sc.get("target", 0); y0, RH = 280, 170
+    dirn = -1 if sc.get("direction", "left") == "left" else 1
+    sw = ease_io(prog(lt, 1.0, 1.9)); collapse = ease_io(prog(lt, 2.0, 2.4))
+    acol = hx(sc.get("action_color", "#1E8E3E"))
+    for i, r in enumerate(rows):
+        y = y0 + i * RH - (RH * collapse if i > tgt else 0)
+        if i != tgt:
+            email_row(scr, int(y), *r[:4], AV_COLS[i % 6], unread=i % 3 != 2); continue
+        if collapse >= 1: continue
+        strip = Image.new("RGBA", (scr.width, RH), acol + (255,)); sd = ImageDraw.Draw(strip)
+        lab = sc.get("action_label", "Archive")
+        if dirn < 0: sd.text((scr.width - 56, RH / 2), lab, font=F("semi", 32), fill=WHITE, anchor="rm")
+        else: sd.text((56, RH / 2), lab, font=F("semi", 32), fill=WHITE, anchor="lm")
+        row = Image.new("RGBA", (scr.width, RH), T["screen"] + (255,))
+        email_row(row, 0, *r[:4], AV_COLS[i % 6])
+        strip.paste(row, (int(dirn * sw * scr.width), 0), row)
+        h = max(1, int(RH * (1 - collapse)))
+        scr.paste(strip.crop((0, 0, scr.width, h)), (0, int(y)))
+    if sc.get("toast") and lt > 2.2:
+        snackbar(scr, sc["toast"], sc.get("toast_action", "Undo"), ease_out(prog(lt, 2.3, 2.55)))
+    finish_phone(c, scr, pos)
+    if 0.7 < lt < 2.0:
+        fx = scr.width - 160 if dirn < 0 else 160
+        fx += dirn * sw * (scr.width - 320)
+        finger(c, pos[0] + fx, pos[1] + y0 + tgt * RH + RH / 2, prog(lt, 0.8, 1.0) if lt < 1.0 else 0, 1 - prog(lt, 1.8, 2.0))
+
 SCREENS = {"chat_send": (screen_chat_send, (0.6, 2.9), (3.0, 4.7)),
            "search_open": (screen_search_open, (0.5, 2.3), (2.4, 4.7)),
            "long_press_pin": (screen_long_press_pin, (0.5, 2.4), (2.5, 4.7)),
-           "settings_toggle": (screen_settings_toggle, (0.5, 2.6), (2.7, 4.7))}
+           "settings_toggle": (screen_settings_toggle, (0.5, 2.6), (2.7, 4.7)),
+           "menu_pick": (screen_menu_pick, (0.4, 2.8), (2.95, 4.7)),
+           "swipe_action": (screen_swipe_action, (0.5, 2.2), (2.35, 4.7))}
+ACTION_AT = {"chat_send": 2.95, "search_open": 2.4, "long_press_pin": 2.5, "settings_toggle": 2.8,
+             "menu_pick": 3.0, "swipe_action": 2.0}
 
 def scene_trick(c, t, cfg, i, t0):
     tr = cfg["tricks"][i]; lt = t - t0
@@ -570,7 +741,7 @@ def make_audio(path, cfg):
     pop = np.sin(2 * np.pi * (900 * pt - 2500 * pt ** 2)) * np.exp(-pt * 35)
     pops = [0.05, cta0, cta0 + 0.3, cta0 + 0.42, cta0 + 0.54]
     for i, (s0, _) in enumerate(segs[1:-1]):
-        pops += [s0, s0 + {"chat_send": 2.95, "search_open": 2.4, "long_press_pin": 2.5, "settings_toggle": 2.8}[cfg["tricks"][i]["screen"]["type"]]]
+        pops += [s0, s0 + ACTION_AT[cfg["tricks"][i]["screen"]["type"]]]
     for t0 in pops: add(pop, t0, 0.35)
     a *= np.minimum(1, (dur - tt) / 0.8)
     pcm = (np.tanh(a * 1.3) * 0.85 * 32767).astype(np.int16)
@@ -586,6 +757,14 @@ def load(path):
     set_theme(cfg.get("app", {}))
     return cfg
 
+def write_extras(cfg, outdir):
+    """cover.png (hook at full reveal, for the Reels/TikTok cover) + post.txt (caption + hashtags)."""
+    frame(cfg, int(2.3 * FPS)).save(os.path.join(outdir, "cover.png"))
+    post = cfg.get("post")
+    if post:
+        txt = post.get("caption", "").strip() + "\n\n" + " ".join("#" + h.lstrip("#") for h in post.get("hashtags", []))
+        open(os.path.join(outdir, "post.txt"), "w").write(txt.strip() + "\n")
+
 def main():
     args = [a for a in sys.argv[1:] if not a.startswith("--")]
     if not args: sys.exit(__doc__)
@@ -593,6 +772,7 @@ def main():
     outdir = os.path.dirname(cfg_path)
     out = os.path.join(outdir, cfg.get("output", "reel.mp4"))
     segs, dur = timeline(cfg)
+    write_extras(cfg, outdir)
     if "--stills" in sys.argv:
         times = [1.6] + [a + 2.0 for a, _ in segs[1:-1]] + [a + 4.0 for a, _ in segs[1:-1]] + [dur - 0.5]
         os.makedirs(os.path.join(outdir, "stills"), exist_ok=True)

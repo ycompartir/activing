@@ -9,6 +9,7 @@ reels/
     reelgen.py        # the engine
     brand/            # Space Grotesk, Inter, JetBrains Mono (from keepmesignedin.com) + K mark
   whatsapp-tricks/reel.json     # example: chat-style screens
+  gmail-tricks/reel.json        # example: menu → sheet and swipe screens
   instagram-settings/reel.json  # example: settings → toggle screens
 ```
 
@@ -27,6 +28,10 @@ reels/
    ```bash
    python3 reels/template/reelgen.py reels/my-new-reel/reel.json
    ```
+
+Every run (video or stills) also writes:
+- `cover.png`: the hook at full reveal, to use as the Reels or TikTok cover.
+- `post.txt`: the caption plus hashtags, if the JSON has a `"post"` block.
 
 Requirements: Python 3 with `pillow` and `numpy`, plus `ffmpeg`.
 
@@ -74,6 +79,11 @@ Hook **3s**, then **5s per trick**, then the CTA **2s**. With 3 tricks the reel 
     }
   ],
 
+  "post": {                          // optional: writes post.txt next to the video
+    "caption": "Caption text…",
+    "hashtags": ["gmail", "techtips"]
+  },
+
   "cta": {
     "line1": "Which trick",
     "line2": "was new to you?",
@@ -94,6 +104,8 @@ Text that is too long shrinks automatically to fit.
 | `chat_send` | Typing in a chat, tapping send, then the message pops in | `contact`, `contact_sub`, `incoming` (list of messages), `type_text` (what gets typed), `sent` (how the sent message looks) |
 | `search_open` | Typing in search, the list filters down, tapping the result, then items pop in on the next screen | `list_title`, `query`, `result` `[name, subtitle]`, `others` `[[name, msg, time], ...]`, `open_title`, `open_sub`, `items` (list of messages) |
 | `long_press_pin` | Long-pressing a row, the toolbar appears, tapping pin, then the row slides to the top | `list_title`, `rows` `[[name, msg, time], ...]` (up to 6), `target` (index of the row to pin) |
+| `menu_pick` | Tapping the 3-dot menu, picking an item, picking an option in the bottom sheet (optional), then an "Undo" pop-up confirms | `base` (`"compose"` or `"email"`), compose: `from`, `to`, `subject`, `body` (paragraphs); email: `subject`, `sender`, `time`, `body`. Then `menu` (items), `pick` (index), `sheet_title`, `sheet` `[[label, detail], ...]`, `sheet_pick`, `toast`, `toast_action` |
+| `swipe_action` | An inbox list, swiping one row away to reveal the action, the gap closing, then an "Undo" pop-up | `list_title`, `section`, `rows` `[[sender, subject, snippet, time], ...]` (up to 5), `target`, `direction` (`"left"` or `"right"`), `action_label`, `action_color`, `toast`, `toast_action` |
 | `settings_toggle` | A settings list, tapping a row, the detail page slides in, then a switch flips | `title`, `rows` (labels, up to 7), `tap` (index), `detail_title`, `detail_text`, `toggle_label`, `toggle_sub`, `start_on` (`true` animates the switch turning **off**) |
 
 You can mix screen types in the same reel.

@@ -1,0 +1,95 @@
+{
+  "output": "reel.mp4",
+  "handle": "@keepmesignedin",
+  "badge": "TRICK",
+  "app": {
+    "name": "Gmail",
+    "header": "#FFFFFF",
+    "header_text": "#1F1F1F",
+    "screen_bg": "#FFFFFF",
+    "field": "#F0F4F9",
+    "accent": "#0B57D0",
+    "touch": "dark"
+  },
+  "hook": {
+    "kicker": "APP TIPS · GMAIL",
+    "line1": "Gmail tricks",
+    "line2": "for a calmer inbox",
+    "teaser": "#3 makes emails come back later"
+  },
+  "tricks": [
+    {
+      "title": "Schedule send",
+      "chip": "Schedule",
+      "screen": {
+        "type": "menu_pick",
+        "base": "compose",
+        "from": "me@example.com",
+        "to": "Jordan",
+        "subject": "Q4 report",
+        "body": ["Hi Jordan,", "Here's the final Q4 report. Let me know if anything needs a second look.", "Thanks!"],
+        "menu": ["Schedule send", "Add from Contacts", "Confidential mode", "Discard", "Settings"],
+        "pick": 0,
+        "sheet_title": "Schedule send",
+        "sheet": [["Tomorrow morning", "8:00 AM"], ["Tomorrow afternoon", "1:00 PM"], ["Pick date & time", ""]],
+        "sheet_pick": 0,
+        "toast": "Send scheduled for tomorrow, 8:00 AM",
+        "toast_action": "Undo"
+      },
+      "captions": [["Tap the 3-dot menu", "→ Schedule send"], ["Write it at midnight,", "it lands at 8 AM"]]
+    },
+    {
+      "title": "Swipe to archive",
+      "chip": "Swipe",
+      "screen": {
+        "type": "swipe_action",
+        "list_title": "Inbox",
+        "section": "Primary",
+        "rows": [
+          ["Spotlight Weekly", "Your Sunday digest", "Top 10 stories this week, plus…", "8:02 AM"],
+          ["Maya Chen", "Dinner Friday?", "Are you free around 7? There's a…", "7:45 AM"],
+          ["Cloud Storage", "You're almost out of space", "Upgrade to keep backing up your…", "Yesterday"],
+          ["Jordan Lee", "Re: Q4 report", "Looks great, just one note on…", "Yesterday"],
+          ["Book Club", "November pick is here", "This month we're reading…", "Nov 20"]
+        ],
+        "target": 0,
+        "direction": "left",
+        "action_label": "Archive",
+        "action_color": "#1E8E3E",
+        "toast": "1 archived",
+        "toast_action": "Undo"
+      },
+      "captions": [["Swipe any email", "to archive it"], ["Change what it does:", "Settings → Swipe actions"]]
+    },
+    {
+      "title": "Snooze an email",
+      "chip": "Snooze",
+      "screen": {
+        "type": "menu_pick",
+        "base": "email",
+        "subject": "Your car insurance renews in 30 days",
+        "sender": "Northside Insurance",
+        "time": "9:14 AM",
+        "body": ["Hi there,", "Your policy renews next month. Review your coverage and update your details anytime before then."],
+        "menu": ["Move to", "Snooze", "Change labels", "Mark important", "Mute", "Print"],
+        "pick": 1,
+        "sheet_title": "Snooze until…",
+        "sheet": [["Later today", "6:00 PM"], ["Tomorrow", "8:00 AM"], ["This weekend", "Sat 8:00 AM"], ["Next week", "Mon 8:00 AM"], ["Pick date & time", ""]],
+        "sheet_pick": 3,
+        "toast": "Snoozed until next week",
+        "toast_action": "Undo"
+      },
+      "captions": [["Open it, tap the 3-dot menu", "→ Snooze"], ["Gone for now. Back at", "the top when it matters"]]
+    }
+  ],
+  "cta": {
+    "line1": "Which trick",
+    "line2": "are you trying first?",
+    "prompt": "COMMENT THE NUMBER",
+    "button": "Follow @keepmesignedin"
+  },
+  "post": {
+    "caption": "3 Gmail tricks for a calmer inbox 📥\n\n1️⃣ Schedule send: write now, deliver at 8 AM\n2️⃣ Swipe to archive (change it in Settings → Swipe actions)\n3️⃣ Snooze: make an email disappear until you need it\n\nWhich one are you trying first? Comment 1, 2 or 3 👇\nSave this for later 🔖",
+    "hashtags": ["gmail", "gmailtips", "emailtips", "productivity", "inboxzero", "techtips", "apptips", "phonehacks"]
+  }
+}
