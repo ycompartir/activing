@@ -407,7 +407,7 @@ def frame(i):
             bg.alpha_composite(layer, (0, 0)) if abs(off) < 1 else bg.paste(layer, (int(off), 0), layer)
     progress(bg, t)
     # handle tag
-    paste(bg, text_img("@app.tips", "semi", 30, (255, 255, 255, 150)), W - 140, H - 80)
+    paste(bg, text_img("@keepmesignedin", "semi", 30, (255, 255, 255, 150)), W - 190, H - 80)
     return bg.convert("RGB")
 
 # ---------- audio ----------
