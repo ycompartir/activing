@@ -1,0 +1,100 @@
+{
+  "output": "reel.mp4",
+  "handle": "@motivationdeeply",
+  "pace": {
+    "hook": 3.5,
+    "item": 7.5,
+    "cta": 3.0
+  },
+  "label": "RULE",
+  "hook": {
+    "scene": "storm",
+    "flashes": [
+      0.35,
+      2.15
+    ],
+    "kicker": "READ THIS ON A HARD DAY",
+    "text": "3 STOIC RULES FOR *HARD* DAYS"
+  },
+  "items": [
+    {
+      "scene": "night_sea",
+      "text": "WE SUFFER MORE OFTEN IN *IMAGINATION* THAN IN REALITY.",
+      "author": "SENECA"
+    },
+    {
+      "scene": "fog_mountains",
+      "text": "MAKE THE BEST USE OF WHAT IS IN YOUR *POWER,* AND TAKE THE REST AS IT HAPPENS.",
+      "author": "EPICTETUS"
+    },
+    {
+      "scene": {
+        "name": "light_break",
+        "start": 0.0
+      },
+      "text": "WHAT STANDS IN THE WAY *BECOMES* THE WAY.",
+      "author": "MARCUS AURELIUS"
+    }
+  ],
+  "cta": {
+    "scene": {
+      "name": "light_break",
+      "start": 0.75
+    },
+    "text": "SAVE THIS FOR THE DAY YOU *NEED* IT.",
+    "follow": "FOLLOW @MOTIVATIONDEEPLY"
+  },
+  "post": {
+    "caption": "3 Stoic rules for hard days 🏛️\n\nI. \"We suffer more often in imagination than in reality.\" — Seneca\nII. \"Make the best use of what is in your power, and take the rest as it happens.\" — Epictetus\nIII. \"What stands in the way becomes the way.\" — Marcus Aurelius\n\nWhich one do you need today? I, II or III 👇\nSave this for the day you need it. 🤍",
+    "hashtags": [
+      "stoicism",
+      "stoic",
+      "marcusaurelius",
+      "seneca",
+      "epictetus",
+      "mindset",
+      "motivation",
+      "dailymotivation",
+      "selfimprovement",
+      "motivationdeeply"
+    ]
+  },
+  "youtube": {
+    "title": "3 Stoic Rules for Hard Days 🏛️ #stoicism #shorts",
+    "alt_titles": [
+      "Read This on a Hard Day: 3 Stoic Rules #shorts",
+      "What Seneca, Epictetus and Marcus Aurelius Knew About Hard Days #shorts"
+    ],
+    "description": "3 Stoic rules to carry you through a hard day.\n\nI. \"We suffer more often in imagination than in reality.\" — Seneca\nMost of the pain is in the story we tell ourselves about what might happen.\n\nII. \"Make the best use of what is in your power, and take the rest as it happens.\" — Epictetus\nFocus on your effort, your choices, your response. Release the rest.\n\nIII. \"What stands in the way becomes the way.\" — Marcus Aurelius\nThe obstacle isn't blocking your path. It is the path.\n\nWhich one do you need today? Comment I, II or III.\n\nSave this for the day you need it, and subscribe for one idea and one reflection to carry through your day. 🌿\n\nFind us on Facebook: facebook.com/motivationdeeply\n\n#stoicism #stoic #motivation #mindset #marcusaurelius #seneca #shorts",
+    "tags": [
+      "stoicism",
+      "stoic quotes",
+      "stoic rules",
+      "stoic philosophy",
+      "marcus aurelius",
+      "seneca",
+      "epictetus",
+      "the obstacle is the way",
+      "stoic mindset",
+      "hard days motivation",
+      "motivational quotes",
+      "daily motivation",
+      "mindset",
+      "self improvement",
+      "discipline",
+      "personal growth",
+      "motivation deeply"
+    ],
+    "hashtags": [
+      "stoicism",
+      "motivation",
+      "mindset",
+      "stoic",
+      "marcusaurelius",
+      "seneca",
+      "shorts"
+    ],
+    "category": "People & Blogs",
+    "pinned_comment": "Which one do you need today? I, II or III? 🤍"
+  }
+}
