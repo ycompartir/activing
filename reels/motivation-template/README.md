@@ -1,7 +1,7 @@
 # MotivationDeeply reel template
 
 Makes a vertical 1080×1920, 30fps reel in the **@motivationdeeply** style:
-- Moody black-and-white scenes, generated in code (no stock footage).
+- Moody black-and-white scenes: generated in code, or real stock footage from Pixabay (`stock` scene) graded to the same look.
 - The MotivationDeeply logo at the top.
 - Handwritten capitals (Architects Daughter) with **one key word in red** (`#D44545`, sampled from the logo's brush stroke).
 - The author's name in spaced capitals, and a red brush stroke under each label.
@@ -49,3 +49,20 @@ Each render writes `reel.mp4` (capped at about 10 Mbps, roughly 25 MB), plus `co
 | `light_break` | Sun breaking through clouds behind mountains, with light rays. `start` (0–1) sets how open the sky is |
 
 Write all text in CAPITALS to match the channel's style. A long quote shrinks to fit automatically.
+| `stock` | A Pixabay video or photo, converted to B&W with a tint, cover-cropped to 1080×1920, slow zoom, looped if short |
+
+### Stock scenes (Pixabay)
+
+```jsonc
+{ "name": "stock", "kind": "video",            // or "photo"
+  "query": "man walking into fog",             // used to search when there is no id
+  "id": 109277,                                // Pixabay id (written back automatically after the first run)
+  "tint": "silver",                            // "silver" | "cool" | "warm" | "neutral" | [r, g, b]
+  "start": 2.5, "speed": 1.0,                  // optional: seconds into the clip, playback speed
+  "focus": 0.5, "level": 1.0, "gamma": 1.1 }   // optional: horizontal crop (0 = left, 1 = right), brightness, contrast curve
+```
+
+- Needs `PIXABAY_API_KEY` in the environment (never commit or print it). Downloads and decoded frames are cached in `cache/` (gitignored).
+- Without an `id`, the best match is picked (vertical, long enough, not AI-generated, popular) and its id, page and file URL are saved into `reel.json`, so later renders use the same clip.
+- If Pixabay has nothing, it falls back to Openverse CC0/public-domain photos.
+- Pixabay Content License and CC0 allow commercial use without attribution. Don't redistribute the clips on their own.

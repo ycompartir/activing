@@ -9,7 +9,7 @@ Usage:
 Structure: hook (3.5s) + N items (7.5s each) + CTA (3s). 3 items = 29s.
 Brand: MotivationDeeply logo, Architects Daughter (handwritten caps), red #D44545 key words.
 """
-import functools, json, math, os, re, subprocess, sys, wave
+import functools, hashlib, json, math, os, re, subprocess, sys, urllib.parse, urllib.request, wave
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
 
@@ -256,7 +256,121 @@ class LightBreak(Scene):
         img = img * (1 - self.m1) + (58 + 30 * op) * self.m1
         return img * (1 - self.m2) + 22 * self.m2
 
-SCENES = {"storm": Storm, "night_sea": NightSea, "fog_mountains": FogMountains, "light_break": LightBreak}
+# ============================================================ stock scenes
+# {"name": "stock", "query": "rain window", "kind": "video"|"photo", "id": <pixabay id>, "tint": "cool"|"warm"|"neutral"|[r,g,b],
+#  "focus": 0..1 (horizontal crop position), "speed": 1.0, "level": 1.0 (brightness), "gamma": 1.1, "start": seconds into the clip}
+# Assets come from Pixabay (key in $PIXABAY_API_KEY, never printed or stored) with Openverse CC0/PDM photos as the fallback.
+# Downloads are cached in cache/ (gitignored). The chosen id/source/page are written back into reel.json for reproducible renders.
+CACHE = os.path.join(HERE, "cache"); UA = {"User-Agent": "Mozilla/5.0 (motivegen reel generator)"}
+TINTS = {"cool": (0.93, 0.97, 1.06), "warm": (1.06, 1.0, 0.9), "neutral": (1.0, 1.0, 1.0), "silver": (0.98, 0.99, 1.02)}
+
+def _get(url, binary=False):
+    with urllib.request.urlopen(urllib.request.Request(url, headers=UA), timeout=60) as r: data = r.read()
+    return data if binary else json.loads(data)
+
+def pixabay(kind, **params):
+    key = os.environ.get("PIXABAY_API_KEY")
+    if not key: raise RuntimeError("PIXABAY_API_KEY is not set")
+    os.makedirs(CACHE, exist_ok=True)
+    tag = hashlib.sha1(json.dumps([kind, params], sort_keys=True).encode()).hexdigest()[:16]
+    cp = os.path.join(CACHE, f"api-{kind}-{tag}.json")
+    if os.path.exists(cp): return json.load(open(cp))
+    ep = "https://pixabay.com/api/videos/" if kind == "video" else "https://pixabay.com/api/"
+    q = dict(params, safesearch="true"); q.setdefault("per_page", 50)
+    try: d = _get(ep + "?" + urllib.parse.urlencode(dict(q, key=key)))
+    except Exception as e: raise RuntimeError(f"Pixabay {kind} request failed: {type(e).__name__} {getattr(e, 'code', '')}") from None
+    json.dump(d, open(cp, "w")); return d
+
+def video_rendition(hit, need_w=SW, need_h=SH, cap=80e6):
+    """Smallest rendition that still covers the scene canvas after a cover-crop, else the largest under the size cap."""
+    rs = [v for v in hit["videos"].values() if v.get("url") and v.get("width")]
+    covers = lambda v: max(need_w / v["width"], need_h / v["height"]) <= 1.0
+    ok = sorted([v for v in rs if covers(v) and v.get("size", 0) <= cap], key=lambda v: v["width"] * v["height"])
+    return ok[0] if ok else max([v for v in rs if v.get("size", 0) <= cap] or rs, key=lambda v: v["width"] * v["height"])
+
+def score_hit(hit, kind, need):
+    if hit.get("isAiGenerated"): return -1e9
+    if kind == "video":
+        v = video_rendition(hit); s = math.log1p(hit.get("downloads", 0)) + 2 * math.log1p(hit.get("likes", 0))
+        s += 6 if v["height"] > v["width"] else 0                         # vertical first
+        s -= 8 if hit.get("duration", 0) < need else 0                    # long enough to avoid a loop seam
+        return s
+    s = math.log1p(hit.get("downloads", 0)) + 2 * math.log1p(hit.get("likes", 0))
+    return s + (6 if hit["imageHeight"] > hit["imageWidth"] else 0) - (10 if hit["imageWidth"] < 1600 else 0)
+
+def resolve_stock(spec, need=9.0):
+    """Fill in id/source/page/src for a stock spec (mutates and returns it)."""
+    kind = spec.get("kind", "video")
+    if spec.get("source") == "openverse": return spec
+    if spec.get("id"):
+        hits = pixabay(kind, id=str(spec["id"]))["hits"]
+    else:
+        hits = pixabay(kind, q=spec["query"], **({"video_type": "film"} if kind == "video" else {"image_type": "photo"}))["hits"]
+        hits = sorted(hits, key=lambda h: -score_hit(h, kind, need))[:1]
+    if not hits:
+        if kind == "photo" or spec.get("fallback", True):
+            return resolve_openverse(spec)
+        raise RuntimeError(f"no Pixabay result for {spec}")
+    h = hits[0]; spec.update(source="pixabay", id=h["id"], page=h["pageURL"], kind=kind)
+    if kind == "video":
+        v = video_rendition(h); spec.update(src=v["url"], size=[v["width"], v["height"]], duration=h.get("duration"))
+    else:
+        spec.update(size=[h["imageWidth"], h["imageHeight"]])
+    return spec
+
+def resolve_openverse(spec):
+    q = urllib.parse.urlencode({"q": spec["query"], "license": "cc0,pdm", "page_size": 20, "aspect_ratio": "tall"})
+    res = [r for r in _get("https://api.openverse.org/v1/images/?" + q).get("results", []) if (r.get("height") or 0) >= 1600]
+    if not res: raise RuntimeError(f"no stock image for {spec['query']!r}")
+    r = res[0]; spec.update(source="openverse", kind="photo", id=r["id"], page=r.get("foreign_landing_url"), src=r["url"], license=r.get("license"))
+    return spec
+
+def stock_file(spec):
+    os.makedirs(CACHE, exist_ok=True); kind = spec.get("kind", "video")
+    ext = ".mp4" if kind == "video" else ".jpg"
+    path = os.path.join(CACHE, f"{spec.get('source', 'pixabay')}-{kind}-{spec['id']}{ext}")
+    if os.path.exists(path): return path
+    url = spec.get("src")
+    if spec.get("source", "pixabay") == "pixabay" and kind == "photo":   # photo URLs expire: ask the API for a fresh one
+        h = pixabay("photo", id=str(spec["id"]))["hits"][0]; url = h.get("fullHDURL") or h["largeImageURL"]
+    data = _get(url, binary=True); open(path + ".part", "wb").write(data); os.replace(path + ".part", path)
+    return path
+
+def grade(g, lo, hi, gamma, level):
+    """Map the clip's own black/white points to the channel's dark, cinematic range."""
+    return (((g - lo) / max(hi - lo, 1)).clip(0, 1) ** gamma) * 205 * level + 4
+
+class Stock(Scene):
+    def __init__(self, o):
+        super().__init__(o); o = self.o
+        t = o.get("tint", "silver"); self.tint = TINTS[t] if isinstance(t, str) else tuple(t)
+        self.kind = o.get("kind", "video"); self.path = stock_file(o)
+        self.gamma, self.level = o.get("gamma", 1.1), o.get("level", 1.0)
+        fx = clamp(o.get("focus", 0.5))
+        vf = (f"scale={SW}:{SH}:force_original_aspect_ratio=increase:flags=lanczos,"
+              f"crop={SW}:{SH}:(iw-{SW})*{fx:.3f}:(ih-{SH})/2,format=gray")
+        if self.kind == "photo":
+            im = Image.open(self.path).convert("L"); s = max(SW / im.width, SH / im.height)
+            im = im.resize((math.ceil(im.width * s), math.ceil(im.height * s)), Image.LANCZOS)
+            x0 = int((im.width - SW) * fx); y0 = (im.height - SH) // 2
+            g = np.asarray(im.crop((x0, y0, x0 + SW, y0 + SH)), np.float32)
+            lo, hi = np.percentile(g, [1, 99.5]); self.img = grade(g, lo, hi, self.gamma, self.level); return
+        secs = o.get("seconds", 9.0); n = int(secs * FPS); sp = o.get("speed", 1.0)
+        key = hashlib.sha1(json.dumps([self.path, vf, n, sp, o.get("start", 0)]).encode()).hexdigest()[:12]
+        raw = os.path.join(CACHE, f"frames-{o['id']}-{key}.u8")
+        if not os.path.exists(raw):
+            cmd = ["ffmpeg", "-y", "-loglevel", "error", "-stream_loop", "-1", "-ss", str(o.get("start", 0)), "-i", self.path,
+                   "-vf", f"setpts={1 / sp:.4f}*PTS,fps={FPS}," + vf, "-frames:v", str(n), "-f", "rawvideo", raw + ".part"]
+            subprocess.run(cmd, check=True); os.replace(raw + ".part", raw)
+        self.frames = np.memmap(raw, np.uint8, "r").reshape(-1, SH, SW); self.n = len(self.frames)
+        sample = self.frames[:: max(1, self.n // 6)].astype(np.float32)
+        self.lo, self.hi = np.percentile(sample, [1, 99.5])
+    def render(self, lt, dur):
+        if self.kind == "photo": return self.img
+        i = int(max(lt, 0) * FPS) % self.n
+        return grade(self.frames[i].astype(np.float32), self.lo, self.hi, self.gamma, self.level)
+
+SCENES = {"storm": Storm, "night_sea": NightSea, "fog_mountains": FogMountains, "light_break": LightBreak, "stock": Stock}
 
 @functools.lru_cache(None)
 def scene_obj(name, opts_json):
@@ -409,6 +523,8 @@ def make_audio(path, cfg):
         wf.setnchannels(1); wf.setsampwidth(2); wf.setframerate(SR); wf.writeframes((mix * 32767).astype(np.int16).tobytes())
 
 # ================================================================== extras
+def uses_stock(cfg): return any(isinstance(p.get("scene"), dict) and p["scene"].get("name") == "stock" for p in [cfg["hook"], *cfg["items"], cfg["cta"]])
+
 def tags_len(tags): return sum(len(t) + (2 if " " in t else 0) for t in tags) + max(0, len(tags) - 1)
 
 def write_extras(cfg, outdir):
@@ -428,15 +544,26 @@ def write_extras(cfg, outdir):
         out += ["", rule, f"DESCRIPTION ({len(desc)}/5000)", desc, "", rule, f"TAGS ({tags_len(tags)}/500), paste into the Tags field",
                 ", ".join(tags), "", rule, "HASHTAGS (the first 3 appear above the title)", " ".join(hashtags[:3]), "", rule, "UPLOAD SETTINGS",
                 "Audience: No, it's not made for kids", f'Category: {yt.get("category", "People & Blogs")}', "Video language: English (United States)",
-                "Altered or synthetic content: No (generated abstract scenery, no realistic people or events)", "Comments: On",
+                "Altered or synthetic content: No (licensed stock footage and generated scenery, nothing realistic was altered or faked)" if uses_stock(cfg) else "Altered or synthetic content: No (generated abstract scenery, no realistic people or events)", "Comments: On",
                 f'Pinned comment: {yt.get("pinned_comment", "")}', "Thumbnail: in the YouTube mobile app, pick the frame at ~0:02"]
         if warn: out += ["", "WARNINGS"] + warn
         open(os.path.join(outdir, "youtube.txt"), "w").write("\n".join(out) + "\n")
+
+def resolve_all(cfg):
+    """Pick and record a stock asset for every stock scene that has no id yet. Returns True if reel.json changed."""
+    changed = False; it = cfg.get("pace", {}).get("item", 7.5)
+    for part in [cfg["hook"], *cfg["items"], cfg["cta"]]:
+        sc = part.get("scene")
+        if isinstance(sc, dict) and sc.get("name") == "stock":
+            sc.setdefault("seconds", round(it + 1.0, 2))
+            if not sc.get("id") or not sc.get("page"): resolve_stock(sc, need=sc["seconds"]); changed = True
+    return changed
 
 def main():
     args = [a for a in sys.argv[1:] if not a.startswith("--")]
     if not args: sys.exit(__doc__)
     path = os.path.abspath(args[0]); cfg = json.load(open(path)); outdir = os.path.dirname(path)
+    if resolve_all(cfg): json.dump(cfg, open(path, "w"), indent=2, ensure_ascii=False); open(path, "a").write("\n"); print("recorded stock ids in", path)
     out = os.path.join(outdir, cfg.get("output", "reel.mp4")); segs, dur = timeline(cfg)
     write_extras(cfg, outdir)
     if "--meta" in sys.argv: print("metadata ->", outdir); return

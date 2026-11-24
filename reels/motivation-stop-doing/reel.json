@@ -18,19 +18,63 @@
   },
   "items": [
     {
-      "scene": "night_sea",
+      "scene": {
+        "name": "stock",
+        "kind": "video",
+        "query": "man walking into fog",
+        "id": 109277,
+        "tint": "silver",
+        "seconds": 8.5,
+        "source": "pixabay",
+        "page": "https://pixabay.com/videos/id-109277/",
+        "src": "https://cdn.pixabay.com/video/2022/03/01/109277-683573065_large.mp4",
+        "size": [
+          1920,
+          1080
+        ],
+        "duration": 28,
+        "start": 2.5
+      },
       "text": "STOP WAITING TO FEEL READY. *START*, AND READINESS WILL FOLLOW.",
       "author": "MS. DEEPLY"
     },
     {
-      "scene": "fog_mountains",
+      "scene": {
+        "name": "stock",
+        "kind": "video",
+        "query": "forest road sun rays",
+        "id": 147898,
+        "tint": "warm",
+        "seconds": 8.5,
+        "source": "pixabay",
+        "page": "https://pixabay.com/videos/id-147898/",
+        "src": "https://cdn.pixabay.com/video/2023/01/25/147898-792811387_large.mp4",
+        "size": [
+          1080,
+          1920
+        ],
+        "duration": 39
+      },
       "text": "DON'T COMPARE YOUR *BEGINNING* TO SOMEONE ELSE'S MIDDLE.",
       "author": "JON ACUFF"
     },
     {
       "scene": {
-        "name": "light_break",
-        "start": 0.0
+        "name": "stock",
+        "kind": "video",
+        "query": "candle flame dark",
+        "id": 4926,
+        "tint": "warm",
+        "level": 0.75,
+        "seconds": 8.5,
+        "source": "pixabay",
+        "page": "https://pixabay.com/videos/id-4926/",
+        "src": "https://cdn.pixabay.com/video/2016/09/04/4926-181466687_large.mp4",
+        "size": [
+          1920,
+          1080
+        ],
+        "duration": 11
       },
       "text": "STOP SAYING YES TO EVERYTHING. EVERY YES IS A *NO* TO SOMETHING ELSE.",
       "author": "MS. DEEPLY"
