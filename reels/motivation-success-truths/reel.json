@@ -1,0 +1,47 @@
+{
+  "output": "reel.mp4",
+  "handle": "@motivationdeeply",
+  "pace": {
+    "hook": 3.5,
+    "item": 7.5,
+    "cta": 3.0
+  },
+  "label": "TRUTH",
+  "hook": {
+    "scene": "storm",
+    "flashes": [
+      0.35,
+      2.15
+    ],
+    "kicker": "ABOUT SUCCESS",
+    "text": "3 TRUTHS NOBODY *TELLS* YOU"
+  },
+  "items": [
+    {
+      "scene": "night_sea",
+      "text": "THE OVERNIGHT SUCCESS USUALLY TOOK *YEARS*.",
+      "author": "MS. DEEPLY"
+    },
+    {
+      "scene": "fog_mountains",
+      "text": "WE ARE WHAT WE REPEATEDLY DO. EXCELLENCE, THEN, IS NOT AN ACT, BUT A *HABIT*.",
+      "author": "WILL DURANT"
+    },
+    {
+      "scene": {
+        "name": "light_break",
+        "start": 0.0
+      },
+      "text": "MOST OF THE WORK HAPPENS WHEN *NO ONE* IS WATCHING.",
+      "author": "MS. DEEPLY"
+    }
+  ],
+  "cta": {
+    "scene": {
+      "name": "light_break",
+      "start": 0.75
+    },
+    "text": "SAVE THIS FOR THE DAY YOU *NEED* IT.",
+    "follow": "FOLLOW @MOTIVATIONDEEPLY"
+  }
+}

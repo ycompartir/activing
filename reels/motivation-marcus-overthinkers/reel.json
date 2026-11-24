@@ -1,0 +1,47 @@
+{
+  "output": "reel.mp4",
+  "handle": "@motivationdeeply",
+  "pace": {
+    "hook": 3.5,
+    "item": 7.5,
+    "cta": 3.0
+  },
+  "label": "LESSON",
+  "hook": {
+    "scene": "storm",
+    "flashes": [
+      0.35,
+      2.15
+    ],
+    "kicker": "FOR OVERTHINKERS",
+    "text": "3 LESSONS FROM *MARCUS AURELIUS*"
+  },
+  "items": [
+    {
+      "scene": "night_sea",
+      "text": "THE SOUL BECOMES DYED WITH THE COLOR OF ITS *THOUGHTS*.",
+      "author": "MEDITATIONS 5.16"
+    },
+    {
+      "scene": "fog_mountains",
+      "text": "NEVER LET THE FUTURE DISTURB YOU. YOU WILL MEET IT WITH THE SAME WEAPONS OF *REASON* THAT ARM YOU TODAY.",
+      "author": "MEDITATIONS 7.8"
+    },
+    {
+      "scene": {
+        "name": "light_break",
+        "start": 0.0
+      },
+      "text": "VERY LITTLE IS NEEDED TO MAKE A HAPPY LIFE. IT IS ALL WITHIN YOURSELF, IN YOUR WAY OF *THINKING*.",
+      "author": "MEDITATIONS 7.67"
+    }
+  ],
+  "cta": {
+    "scene": {
+      "name": "light_break",
+      "start": 0.75
+    },
+    "text": "SAVE THIS FOR THE DAY YOU *NEED* IT.",
+    "follow": "FOLLOW @MOTIVATIONDEEPLY"
+  }
+}

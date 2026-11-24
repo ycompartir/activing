@@ -1,0 +1,47 @@
+{
+  "output": "reel.mp4",
+  "handle": "@motivationdeeply",
+  "pace": {
+    "hook": 3.5,
+    "item": 7.5,
+    "cta": 3.0
+  },
+  "label": "QUOTE",
+  "hook": {
+    "scene": "storm",
+    "flashes": [
+      0.35,
+      2.15
+    ],
+    "kicker": "FOR WHEN YOU FEEL BEHIND",
+    "text": "3 QUOTES TO *SLOW* DOWN WITH"
+  },
+  "items": [
+    {
+      "scene": "night_sea",
+      "text": "BEGIN AT ONCE TO LIVE, AND COUNT EACH SEPARATE DAY AS A SEPARATE *LIFE*.",
+      "author": "SENECA"
+    },
+    {
+      "scene": "fog_mountains",
+      "text": "THE TWO MOST POWERFUL WARRIORS ARE *PATIENCE* AND TIME.",
+      "author": "LEO TOLSTOY"
+    },
+    {
+      "scene": {
+        "name": "light_break",
+        "start": 0.0
+      },
+      "text": "YOU ARE NOT BEHIND. YOU ARE SIMPLY *BEGINNING* AGAIN, WISER.",
+      "author": "MS. DEEPLY"
+    }
+  ],
+  "cta": {
+    "scene": {
+      "name": "light_break",
+      "start": 0.75
+    },
+    "text": "SAVE THIS FOR THE DAY YOU *NEED* IT.",
+    "follow": "FOLLOW @MOTIVATIONDEEPLY"
+  }
+}

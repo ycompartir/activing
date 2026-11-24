@@ -1,0 +1,47 @@
+{
+  "output": "reel.mp4",
+  "handle": "@motivationdeeply",
+  "pace": {
+    "hook": 3.5,
+    "item": 7.5,
+    "cta": 3.0
+  },
+  "label": "STOP",
+  "hook": {
+    "scene": "storm",
+    "flashes": [
+      0.35,
+      2.15
+    ],
+    "kicker": "IF YOU WANT TO GROW",
+    "text": "3 THINGS TO *STOP* DOING"
+  },
+  "items": [
+    {
+      "scene": "night_sea",
+      "text": "STOP WAITING TO FEEL READY. *START*, AND READINESS WILL FOLLOW.",
+      "author": "MS. DEEPLY"
+    },
+    {
+      "scene": "fog_mountains",
+      "text": "DON'T COMPARE YOUR *BEGINNING* TO SOMEONE ELSE'S MIDDLE.",
+      "author": "JON ACUFF"
+    },
+    {
+      "scene": {
+        "name": "light_break",
+        "start": 0.0
+      },
+      "text": "STOP SAYING YES TO EVERYTHING. EVERY YES IS A *NO* TO SOMETHING ELSE.",
+      "author": "MS. DEEPLY"
+    }
+  ],
+  "cta": {
+    "scene": {
+      "name": "light_break",
+      "start": 0.75
+    },
+    "text": "SAVE THIS FOR THE DAY YOU *NEED* IT.",
+    "follow": "FOLLOW @MOTIVATIONDEEPLY"
+  }
+}
