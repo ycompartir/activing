@@ -18,19 +18,65 @@
   },
   "items": [
     {
-      "scene": "night_sea",
+      "scene": {
+        "name": "stock",
+        "kind": "video",
+        "query": "ink in water dark",
+        "id": 23730,
+        "tint": "silver",
+        "seconds": 8.5,
+        "source": "pixabay",
+        "page": "https://pixabay.com/videos/id-23730/",
+        "src": "https://cdn.pixabay.com/video/2019/05/16/23730-336607640_large.mp4",
+        "size": [
+          3840,
+          2160
+        ],
+        "duration": 30,
+        "start": 2.0,
+        "focus": 0.4
+      },
       "text": "THE SOUL BECOMES DYED WITH THE COLOR OF ITS *THOUGHTS*.",
       "author": "MEDITATIONS 5.16"
     },
     {
-      "scene": "fog_mountains",
+      "scene": {
+        "name": "stock",
+        "kind": "video",
+        "query": "rain on window night light",
+        "id": 11722,
+        "tint": "cool",
+        "seconds": 8.5,
+        "source": "pixabay",
+        "page": "https://pixabay.com/videos/id-11722/",
+        "src": "https://cdn.pixabay.com/video/2017/08/30/11722-231759069_large.mp4",
+        "size": [
+          1920,
+          1080
+        ],
+        "duration": 33,
+        "level": 0.7,
+        "focus": 0.2
+      },
       "text": "NEVER LET THE FUTURE DISTURB YOU. YOU WILL MEET IT WITH THE SAME WEAPONS OF *REASON* THAT ARM YOU TODAY.",
       "author": "MEDITATIONS 7.8"
     },
     {
       "scene": {
-        "name": "light_break",
-        "start": 0.0
+        "name": "stock",
+        "kind": "video",
+        "query": "still lake forest reflection",
+        "id": 186405,
+        "tint": "silver",
+        "seconds": 8.5,
+        "source": "pixabay",
+        "page": "https://pixabay.com/videos/id-186405/",
+        "src": "https://cdn.pixabay.com/video/2023/10/25/186405-877993676_large.mp4",
+        "size": [
+          3840,
+          2160
+        ],
+        "duration": 13
       },
       "text": "VERY LITTLE IS NEEDED TO MAKE A HAPPY LIFE. IT IS ALL WITHIN YOURSELF, IN YOUR WAY OF *THINKING*.",
       "author": "MEDITATIONS 7.67"
@@ -43,5 +89,53 @@
     },
     "text": "SAVE THIS FOR THE DAY YOU *NEED* IT.",
     "follow": "FOLLOW @MOTIVATIONDEEPLY"
+  },
+  "post": {
+    "caption": "3 lessons from Marcus Aurelius for overthinkers 🏛️\n\nI. \"The soul becomes dyed with the color of its thoughts.\" — Meditations 5.16\nII. \"Never let the future disturb you. You will meet it, if you have to, with the same weapons of reason which today arm you against the present.\" — Meditations 7.8\nIII. \"Very little is needed to make a happy life; it is all within yourself, in your way of thinking.\" — Meditations 7.67\n\nWhich one does your mind need today? I, II or III 👇\nSave this for the next time you can't switch off. 🤍",
+    "hashtags": [
+      "marcusaurelius",
+      "stoicism",
+      "overthinking",
+      "stoic",
+      "meditations",
+      "mindset",
+      "anxietyrelief",
+      "mentalhealth",
+      "motivationdeeply"
+    ]
+  },
+  "youtube": {
+    "title": "3 Lessons From Marcus Aurelius for Overthinkers 🏛️ #stoicism #shorts",
+    "alt_titles": [
+      "Overthinking? Read This From Marcus Aurelius #shorts",
+      "Marcus Aurelius on How to Stop Overthinking #shorts"
+    ],
+    "description": "3 lessons from Marcus Aurelius' Meditations for overthinkers.\n\nI. \"The soul becomes dyed with the color of its thoughts.\" — Meditations 5.16\nWhat you think about all day becomes who you are. Choose the colors carefully.\n\nII. \"Never let the future disturb you. You will meet it, if you have to, with the same weapons of reason which today arm you against the present.\" — Meditations 7.8\nYou've handled every hard day so far. You'll handle the next one too.\n\nIII. \"Very little is needed to make a happy life; it is all within yourself, in your way of thinking.\" — Meditations 7.67\nPeace isn't out there. It's in how you look at what's here.\n\nWhich one does your mind need today? Comment I, II or III.\n\nSave this for the next time you can't switch off, and subscribe for one idea and one reflection to carry through your day. 🌿\n\nFind us on Facebook: facebook.com/motivationdeeply\n\n#stoicism #marcusaurelius #overthinking #mindset #stoic #shorts",
+    "tags": [
+      "marcus aurelius",
+      "meditations",
+      "stoicism",
+      "stoic quotes",
+      "overthinking",
+      "how to stop overthinking",
+      "overthinker",
+      "anxiety",
+      "calm mind",
+      "stoic philosophy",
+      "marcus aurelius quotes",
+      "mindset",
+      "mental health",
+      "motivation deeply"
+    ],
+    "hashtags": [
+      "stoicism",
+      "marcusaurelius",
+      "overthinking",
+      "mindset",
+      "stoic",
+      "shorts"
+    ],
+    "category": "People & Blogs",
+    "pinned_comment": "Which one does your mind need today? I, II or III? 🤍"
   }
 }

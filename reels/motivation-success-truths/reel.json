@@ -18,19 +18,62 @@
   },
   "items": [
     {
-      "scene": "night_sea",
+      "scene": {
+        "name": "stock",
+        "kind": "video",
+        "query": "hourglass sand falling",
+        "id": 21549,
+        "tint": "warm",
+        "seconds": 8.5,
+        "source": "pixabay",
+        "page": "https://pixabay.com/videos/id-21549/",
+        "src": "https://cdn.pixabay.com/video/2019/02/20/21549-318711490_medium.mp4",
+        "size": [
+          2560,
+          1440
+        ],
+        "duration": 44
+      },
       "text": "THE OVERNIGHT SUCCESS USUALLY TOOK *YEARS*.",
       "author": "MS. DEEPLY"
     },
     {
-      "scene": "fog_mountains",
+      "scene": {
+        "name": "stock",
+        "kind": "video",
+        "query": "dark ocean swell",
+        "id": 49131,
+        "tint": "cool",
+        "seconds": 8.5,
+        "source": "pixabay",
+        "page": "https://pixabay.com/videos/id-49131/",
+        "src": "https://cdn.pixabay.com/video/2020/09/05/49131-459186455_medium.mp4",
+        "size": [
+          2560,
+          1440
+        ],
+        "duration": 29,
+        "level": 0.8
+      },
       "text": "WE ARE WHAT WE REPEATEDLY DO. EXCELLENCE, THEN, IS NOT AN ACT, BUT A *HABIT*.",
       "author": "WILL DURANT"
     },
     {
       "scene": {
-        "name": "light_break",
-        "start": 0.0
+        "name": "stock",
+        "kind": "video",
+        "query": "city night lit windows",
+        "id": 3134,
+        "tint": "cool",
+        "seconds": 8.5,
+        "source": "pixabay",
+        "page": "https://pixabay.com/videos/id-3134/",
+        "src": "https://cdn.pixabay.com/video/2016/05/12/3134-166335905_large.mp4",
+        "size": [
+          1920,
+          1080
+        ],
+        "duration": 54
       },
       "text": "MOST OF THE WORK HAPPENS WHEN *NO ONE* IS WATCHING.",
       "author": "MS. DEEPLY"
@@ -43,5 +86,54 @@
     },
     "text": "SAVE THIS FOR THE DAY YOU *NEED* IT.",
     "follow": "FOLLOW @MOTIVATIONDEEPLY"
+  },
+  "post": {
+    "caption": "3 truths nobody tells you about success 🏔️\n\nI. The overnight success usually took years.\nII. \"We are what we repeatedly do. Excellence, then, is not an act, but a habit.\" — Will Durant\nIII. Most of the work happens when no one is watching.\n\nWhich truth hit you the hardest? I, II or III 👇\nSave this for the day you need it. 🤍",
+    "hashtags": [
+      "success",
+      "successmindset",
+      "discipline",
+      "habits",
+      "mindset",
+      "motivation",
+      "dailymotivation",
+      "selfimprovement",
+      "motivationdeeply"
+    ]
+  },
+  "youtube": {
+    "title": "3 Truths Nobody Tells You About Success 🏔️ #success #shorts",
+    "alt_titles": [
+      "The Truth About Success Nobody Talks About #shorts",
+      "3 Hard Truths About Success #shorts"
+    ],
+    "description": "3 truths nobody tells you about success.\n\nI. The overnight success usually took years.\nWhat looks sudden from the outside was slow and quiet on the inside.\n\nII. \"We are what we repeatedly do. Excellence, then, is not an act, but a habit.\" — Will Durant (summing up Aristotle)\nResults are just habits that had time to add up.\n\nIII. Most of the work happens when no one is watching.\nThe early mornings, the repetitions, the drafts nobody sees. That's where it's built.\n\nWhich truth hit you the hardest? Comment I, II or III.\n\nSave this for the day you need it, and subscribe for one idea and one reflection to carry through your day. 🌿\n\nFind us on Facebook: facebook.com/motivationdeeply\n\n#success #discipline #habits #mindset #motivation #shorts",
+    "tags": [
+      "truths about success",
+      "success",
+      "overnight success",
+      "hard truths",
+      "will durant",
+      "aristotle quote",
+      "we are what we repeatedly do",
+      "excellence is a habit",
+      "habits",
+      "discipline",
+      "consistency",
+      "success mindset",
+      "motivational quotes",
+      "daily motivation",
+      "motivation deeply"
+    ],
+    "hashtags": [
+      "success",
+      "discipline",
+      "habits",
+      "mindset",
+      "motivation",
+      "shorts"
+    ],
+    "category": "People & Blogs",
+    "pinned_comment": "Which truth hit you the hardest? I, II or III? 🤍"
   }
 }

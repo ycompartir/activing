@@ -18,19 +18,64 @@
   },
   "items": [
     {
-      "scene": "night_sea",
+      "scene": {
+        "name": "stock",
+        "kind": "video",
+        "query": "sunrise over sea vertical",
+        "id": 264963,
+        "tint": "warm",
+        "seconds": 8.5,
+        "source": "pixabay",
+        "page": "https://pixabay.com/videos/id-264963/",
+        "src": "https://cdn.pixabay.com/video/2025/03/15/264963_medium.mp4",
+        "size": [
+          1440,
+          2560
+        ],
+        "duration": 13
+      },
       "text": "BEGIN AT ONCE TO LIVE, AND COUNT EACH SEPARATE DAY AS A SEPARATE *LIFE*.",
       "author": "SENECA"
     },
     {
-      "scene": "fog_mountains",
+      "scene": {
+        "name": "stock",
+        "kind": "video",
+        "query": "alarm clock",
+        "id": 15629,
+        "tint": "silver",
+        "focus": 1.0,
+        "seconds": 8.5,
+        "source": "pixabay",
+        "page": "https://pixabay.com/videos/id-15629/",
+        "src": "https://cdn.pixabay.com/video/2018/04/16/15629-265015278_large.mp4",
+        "size": [
+          4096,
+          2160
+        ],
+        "duration": 11,
+        "level": 0.6,
+        "gamma": 1.3
+      },
       "text": "THE TWO MOST POWERFUL WARRIORS ARE *PATIENCE* AND TIME.",
       "author": "LEO TOLSTOY"
     },
     {
       "scene": {
-        "name": "light_break",
-        "start": 0.0
+        "name": "stock",
+        "kind": "video",
+        "query": "birds flying sunset sea",
+        "id": 140111,
+        "tint": "warm",
+        "seconds": 8.5,
+        "source": "pixabay",
+        "page": "https://pixabay.com/videos/id-140111/",
+        "src": "https://cdn.pixabay.com/video/2022/11/22/140111-774507949_large.mp4",
+        "size": [
+          3840,
+          2160
+        ],
+        "duration": 20
       },
       "text": "YOU ARE NOT BEHIND. YOU ARE SIMPLY *BEGINNING* AGAIN, WISER.",
       "author": "MS. DEEPLY"
@@ -43,5 +88,53 @@
     },
     "text": "SAVE THIS FOR THE DAY YOU *NEED* IT.",
     "follow": "FOLLOW @MOTIVATIONDEEPLY"
+  },
+  "post": {
+    "caption": "3 quotes for when you feel behind in life 🌅\n\nI. \"Begin at once to live, and count each separate day as a separate life.\" — Seneca\nII. \"The two most powerful warriors are patience and time.\" — Leo Tolstoy\nIII. You are not behind. You are simply beginning again, wiser.\n\nWhich one do you need today? I, II or III 👇\nSend this to someone who feels behind. 🤍",
+    "hashtags": [
+      "feelingbehind",
+      "patience",
+      "selfgrowth",
+      "seneca",
+      "tolstoy",
+      "mindset",
+      "motivation",
+      "dailymotivation",
+      "motivationdeeply"
+    ]
+  },
+  "youtube": {
+    "title": "For When You Feel Behind in Life 🌅 3 Quotes #motivation #shorts",
+    "alt_titles": [
+      "Feeling Behind in Life? Watch This #shorts",
+      "3 Quotes to Slow Down With When You Feel Behind #shorts"
+    ],
+    "description": "3 quotes to slow down with when you feel behind in life.\n\nI. \"Begin at once to live, and count each separate day as a separate life.\" — Seneca\nYou don't need to catch up on years. Just live today well.\n\nII. \"The two most powerful warriors are patience and time.\" — Leo Tolstoy, War and Peace\nThe things that matter grow slowly. Let them.\n\nIII. You are not behind. You are simply beginning again, wiser.\nEvery restart carries everything you've learned.\n\nWhich one do you need today? Comment I, II or III.\n\nSend this to someone who feels behind, and subscribe for one idea and one reflection to carry through your day. 🌿\n\nFind us on Facebook: facebook.com/motivationdeeply\n\n#motivation #patience #mindset #selfgrowth #seneca #shorts",
+    "tags": [
+      "feeling behind in life",
+      "behind in life",
+      "starting over",
+      "patience",
+      "seneca quotes",
+      "leo tolstoy",
+      "patience and time",
+      "war and peace quote",
+      "slow down",
+      "self growth",
+      "motivational quotes",
+      "daily motivation",
+      "mindset",
+      "motivation deeply"
+    ],
+    "hashtags": [
+      "motivation",
+      "patience",
+      "mindset",
+      "selfgrowth",
+      "seneca",
+      "shorts"
+    ],
+    "category": "People & Blogs",
+    "pinned_comment": "Which one do you need today? I, II or III? 🤍"
   }
 }

@@ -8,7 +8,18 @@ Start sessions for this channel on the **motivationdeeply** cloud environment. I
 - The approved format is `motivegen.py` (no anime): 29s = hook 3.5s + 3 items × 7.5s + CTA 3s. B&W cinematic scenes, logo on top, handwritten caps (Architects Daughter), one red key word (`*WORD*`), author in spaced caps, piano/pad music + SFX, no voiceover.
 - Deliver per reel: `reel.mp4`, `cover.png`, `post.txt`, `youtube.txt`. Send them to the user with **distinct names** (e.g. `motivationdeeply-<topic>.mp4`, `post-motivationdeeply-<topic>.txt`). Commit and push to the working branch.
 
-## Next task
+## Roles (decided by the owner, Nov 2026)
+- **Claude is producer and director.** The owner trusts Claude's judgment: choose topics, quotes, backgrounds, grading and pacing yourself, review your own stills critically, fix what doesn't work, and deliver finished reels. Don't stop for approval of backgrounds or test frames.
+- The owner acts as **advisor and, for some reels, scriptwriter**. When the owner provides a script or notes, follow them; otherwise the reels should "work on their own".
+- Still explain what you did in Spanish at the end, briefly, with the deliverables.
+
+## Done (Nov 2026)
+- `stock` scenes (Pixabay video/photo, Openverse fallback) are in `motivegen.py` and documented in the README.
+- The 4 reels below were rendered with stock backgrounds on the items (hook storm and CTA light break kept as the channel signature) and delivered.
+- Direction notes learned: skip clip intros where the subject is cut off (`start`), dim bright skies and light sources behind the text (`level` 0.6–0.8), move bright spots out of the text area with `focus`, and check that the red key word stays readable.
+- Ideas for next reels: vary the hook too (e.g. a stock rain clip with no thunder), and avoid reusing clip ids already in other reel.json files.
+
+## Previous task (done)
 The 4 reels are drafted with text in their `reel.json` files (quotes checked; "MS. DEEPLY" = the channel's own lines, as the channel already does):
 1. `reels/motivation-stop-doing/`: 3 things to stop doing if you want to grow
 2. `reels/motivation-success-truths/`: 3 truths nobody tells you about success
