@@ -27,14 +27,14 @@ def ease_io(x): return 4 * x ** 3 if x < .5 else 1 - (-2 * x + 2) ** 3 / 2
 
 # Channel font. Patrick Hand (SIL OFL, see brand/PatrickHand-OFL.txt) is the default since Nov 2026; reels made earlier pin
 # "font": "architects-daughter" in reel.json so they re-render exactly as published. "tracking" = extra letter spacing (x size).
-# name: (file, tracking, size scale, word-space factor)
-FONTS = {"patrick-hand": ("PatrickHand-Regular.ttf", 0.09, 1.12, 1.8), "architects-daughter": ("architects-daughter-latin-400-normal.woff2", 0.0, 1.0, 1.1)}
-FONT_FILE, TRACK, FSCALE, WSPACE = FONTS["patrick-hand"]
+# name: (file, tracking, size scale, word-space factor, line height x size)
+FONTS = {"patrick-hand": ("PatrickHand-Regular.ttf", 0.09, 1.12, 1.8, 1.85), "architects-daughter": ("architects-daughter-latin-400-normal.woff2", 0.0, 1.0, 1.1, 1.42)}
+FONT_FILE, TRACK, FSCALE, WSPACE, LEADING = FONTS["patrick-hand"]
 
 def set_font(cfg):
-    global FONT_FILE, TRACK, FSCALE, WSPACE
-    FONT_FILE, TRACK, FSCALE, WSPACE = FONTS[cfg.get("font", "patrick-hand")]
-    TRACK = cfg.get("tracking", TRACK)
+    global FONT_FILE, TRACK, FSCALE, WSPACE, LEADING
+    FONT_FILE, TRACK, FSCALE, WSPACE, LEADING = FONTS[cfg.get("font", "patrick-hand")]
+    TRACK = cfg.get("tracking", TRACK); LEADING = cfg.get("leading", LEADING)
 
 @functools.lru_cache(None)
 def _F(file, size): return ImageFont.truetype(BR + file, size)
@@ -90,7 +90,7 @@ def layout(text, size, maxw):
         tw = sum(wlen(f, w, size) for w, _ in ln) + sp * (len(ln) - 1); x = W / 2 - tw / 2
         for w, r in ln:
             placed.append((w, r, x + wlen(f, w, size) / 2, li)); x += wlen(f, w, size) + sp
-    return placed, len(lines), size * 1.42
+    return placed, len(lines), size * LEADING
 
 def draw_text(canvas, text, size, cy, t, t0, stagger=0.11, fade_out=None, maxw=880):
     """Word-by-word reveal (fade + rise). Returns (top, bottom, end_time)."""

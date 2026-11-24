@@ -44,6 +44,7 @@ Each render writes `reel.mp4` (capped at about 10 Mbps, roughly 25 MB), plus `co
 New reels use Patrick Hand by default (`brand/PatrickHand-Regular.ttf`, license in `brand/PatrickHand-OFL.txt`). Optional keys in `reel.json`:
 - `"font": "patrick-hand"` (default) or `"architects-daughter"` (the font of the first five reels, which pin it so they re-render exactly as published).
 - `"tracking": 0.09` adds extra letter spacing (a fraction of the font size).
+- `"leading": 1.85` sets the line height as a multiple of the font size (airy, almost one empty line between lines, like the owner's Canva posts).
 
 Use the regular Patrick Hand, not Patrick Hand SC: the SC (small caps) version only changes lowercase letters, and the channel writes in capitals.
 

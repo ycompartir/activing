@@ -14,7 +14,7 @@ Start sessions for this channel on the **motivationdeeply** cloud environment. I
 - Still explain what you did in Spanish at the end, briefly, with the deliverables.
 
 ## Font (decided by the owner, Nov 2026)
-- The owner's own font in Canva is **FF Providence Sans** (commercial, can't be extracted from Canva). For our reels they chose the free lookalike **Patrick Hand** (regular, not SC). It is the default in `motivegen.py`; older reels pin `"font": "architects-daughter"`.
+- The owner's own font in Canva is **FF Providence Sans** (commercial, can't be extracted from Canva). For our reels they chose the free lookalike **Patrick Hand** (regular, not SC). It is the default in `motivegen.py`; older reels pin `"font": "architects-daughter"`. Line height is 1.85× the font size (`"leading"`), airy like the owner's Canva posts.
 
 ## Done (Nov 2026)
 - `stock` scenes (Pixabay video/photo, Openverse fallback) are in `motivegen.py` and documented in the README.
