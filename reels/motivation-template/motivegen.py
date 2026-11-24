@@ -25,8 +25,21 @@ def prog(t, a, b): return clamp((t - a) / (b - a)) if b > a else float(t >= a)
 def ease_out(x): return 1 - (1 - x) ** 3
 def ease_io(x): return 4 * x ** 3 if x < .5 else 1 - (-2 * x + 2) ** 3 / 2
 
+# Channel font. Patrick Hand (SIL OFL, see brand/PatrickHand-OFL.txt) is the default since Nov 2026; reels made earlier pin
+# "font": "architects-daughter" in reel.json so they re-render exactly as published. "tracking" = extra letter spacing (x size).
+# name: (file, tracking, size scale, word-space factor)
+FONTS = {"patrick-hand": ("PatrickHand-Regular.ttf", 0.09, 1.12, 1.8), "architects-daughter": ("architects-daughter-latin-400-normal.woff2", 0.0, 1.0, 1.1)}
+FONT_FILE, TRACK, FSCALE, WSPACE = FONTS["patrick-hand"]
+
+def set_font(cfg):
+    global FONT_FILE, TRACK, FSCALE, WSPACE
+    FONT_FILE, TRACK, FSCALE, WSPACE = FONTS[cfg.get("font", "patrick-hand")]
+    TRACK = cfg.get("tracking", TRACK)
+
 @functools.lru_cache(None)
-def F(size): return ImageFont.truetype(BR + "architects-daughter-latin-400-normal.woff2", size)
+def _F(file, size): return ImageFont.truetype(BR + file, size)
+def F(size): return _F(FONT_FILE, int(round(size * FSCALE)))   # FSCALE evens out the x-height between fonts
+def wlen(f, w, size): return f.getlength(w) + TRACK * size * max(0, len(w) - 1)
 
 @functools.lru_cache(None)
 def logo(width):
@@ -41,9 +54,9 @@ def paste(canvas, im, cx, cy, alpha=1.0, scale=1.0):
     canvas.alpha_composite(im, (int(cx - im.width / 2), int(cy - im.height / 2))) if (cx - im.width / 2 >= 0 and cy - im.height / 2 >= 0 and cx + im.width / 2 <= W and cy + im.height / 2 <= H) else canvas.paste(im, (int(cx - im.width / 2), int(cy - im.height / 2)), im)
 
 @functools.lru_cache(4096)
-def word_img(word, size, color, ls=0.0):
+def word_img(word, size, color, ls=None):
     """Word with a soft dark shadow for readability on any background."""
-    f = F(size); trk = ls * size
+    f = F(size); trk = (TRACK if ls is None else ls) * size
     wd = int(f.getlength(word) + trk * max(0, len(word) - 1)) + 40
     asc, desc = f.getmetrics(); hh = asc + desc + 40
     txt = Image.new("RGBA", (wd, hh), (0, 0, 0, 0)); d = ImageDraw.Draw(txt)
@@ -65,18 +78,18 @@ def parse_words(text):
     return out
 
 def layout(text, size, maxw):
-    words = parse_words(text); f = F(size); sp = f.getlength(" ") * 1.1
+    words = parse_words(text); f = F(size); sp = f.getlength(" ") * WSPACE
     lines, cur, cw = [], [], 0
     for w, r in words:
-        ww = f.getlength(w)
+        ww = wlen(f, w, size)
         if cur and cw + sp + ww > maxw: lines.append(cur); cur, cw = [], 0
         cw += (sp if cur else 0) + ww; cur.append((w, r))
     if cur: lines.append(cur)
     placed = []   # (word, red, x_center, line_index)
     for li, ln in enumerate(lines):
-        tw = sum(f.getlength(w) for w, _ in ln) + sp * (len(ln) - 1); x = W / 2 - tw / 2
+        tw = sum(wlen(f, w, size) for w, _ in ln) + sp * (len(ln) - 1); x = W / 2 - tw / 2
         for w, r in ln:
-            placed.append((w, r, x + f.getlength(w) / 2, li)); x += f.getlength(w) + sp
+            placed.append((w, r, x + wlen(f, w, size) / 2, li)); x += wlen(f, w, size) + sp
     return placed, len(lines), size * 1.42
 
 def draw_text(canvas, text, size, cy, t, t0, stagger=0.11, fade_out=None, maxw=880):
@@ -562,7 +575,7 @@ def resolve_all(cfg):
 def main():
     args = [a for a in sys.argv[1:] if not a.startswith("--")]
     if not args: sys.exit(__doc__)
-    path = os.path.abspath(args[0]); cfg = json.load(open(path)); outdir = os.path.dirname(path)
+    path = os.path.abspath(args[0]); cfg = json.load(open(path)); outdir = os.path.dirname(path); set_font(cfg)
     if resolve_all(cfg): json.dump(cfg, open(path, "w"), indent=2, ensure_ascii=False); open(path, "a").write("\n"); print("recorded stock ids in", path)
     out = os.path.join(outdir, cfg.get("output", "reel.mp4")); segs, dur = timeline(cfg)
     write_extras(cfg, outdir)

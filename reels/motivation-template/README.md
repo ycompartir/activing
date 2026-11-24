@@ -3,7 +3,7 @@
 Makes a vertical 1080×1920, 30fps reel in the **@motivationdeeply** style:
 - Moody black-and-white scenes: generated in code, or real stock footage from Pixabay (`stock` scene) graded to the same look.
 - The MotivationDeeply logo at the top.
-- Handwritten capitals (Architects Daughter) with **one key word in red** (`#D44545`, sampled from the logo's brush stroke).
+- Handwritten capitals (**Patrick Hand**, SIL OFL, with wide letter spacing, the closest free match to the owner's FF Providence Sans in Canva) with **one key word in red** (`#D44545`, sampled from the logo's brush stroke).
 - The author's name in spaced capitals, and a red brush stroke under each label.
 - Piano and ambient pad music with reverb, plus sound effects: thunder synced to lightning, a whoosh into each scene, a deep boom on each label and a bell on the logo. No voiceover.
 
@@ -38,6 +38,14 @@ Each render writes `reel.mp4` (capped at about 10 Mbps, roughly 25 MB), plus `co
   "youtube": { "title": "…", "alt_titles": [], "description": "…", "tags": [], "hashtags": [], "category": "People & Blogs", "pinned_comment": "…" }
 }
 ```
+
+## Font
+
+New reels use Patrick Hand by default (`brand/PatrickHand-Regular.ttf`, license in `brand/PatrickHand-OFL.txt`). Optional keys in `reel.json`:
+- `"font": "patrick-hand"` (default) or `"architects-daughter"` (the font of the first five reels, which pin it so they re-render exactly as published).
+- `"tracking": 0.09` adds extra letter spacing (a fraction of the font size).
+
+Use the regular Patrick Hand, not Patrick Hand SC: the SC (small caps) version only changes lowercase letters, and the channel writes in capitals.
 
 ## Scenes
 
